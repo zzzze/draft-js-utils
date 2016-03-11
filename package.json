@@ -1,0 +1,23 @@
+{
+  "name": "draft-js-export-html",
+  "version": "0.1.0",
+  "description": "DraftJS export ContentState to HTML",
+  "main": "lib/export-html.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sstur/draft-js-export-html.git"
+  },
+  "keywords": [
+    "draft-js",
+    "export-html"
+  ],
+  "author": "sstur@me.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sstur/draft-js-export-html/issues"
+  },
+  "homepage": "https://github.com/sstur/draft-js-export-html#readme"
+}
