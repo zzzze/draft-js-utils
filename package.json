@@ -1,7 +1,7 @@
 {
   "name": "draft-js-export-html",
   "version": "0.1.1",
-  "description": "DraftJS export ContentState to HTML",
+  "description": "DraftJS: Export ContentState to HTML",
   "main": "lib/main.js",
   "scripts": {
     "build": "babel src --ignore '_*' --out-dir lib",
