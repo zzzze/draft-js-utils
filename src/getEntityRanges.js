@@ -10,7 +10,7 @@ type StylePiece = [string, Style];
 type EntityPiece = [EntityKey, Array<StylePiece>];
 export type CharacterMetaList = List<CharacterMetadata>;
 
-const EMPTY_SET = OrderedSet();
+export const EMPTY_SET = OrderedSet();
 
 export default function getEntityRanges(
   text: string,
