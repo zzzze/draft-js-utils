@@ -101,7 +101,7 @@ class MarkupGenerator {
 
   generate(): string {
     this.output = [];
-    this.blocks = this.contentState.getBlockMap().toArray();
+    this.blocks = this.contentState.getBlocksAsArray();
     this.totalBlocks = this.blocks.length;
     this.currentBlock = 0;
     this.indentLevel = 0;
