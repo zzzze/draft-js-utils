@@ -1,7 +1,1 @@
-import stateToHTML from './stateToHTML';
-import Constants from './Constants';
-
-export {
-  stateToHTML,
-  Constants,
-};
+export {default as stateToHTML} from './stateToHTML';

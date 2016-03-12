@@ -41,5 +41,8 @@
     "mocha": "^2.4.5",
     "react": "^0.14.7",
     "react-dom": "^0.14.7"
+  },
+  "dependencies": {
+    "draft-js-tools": "^0.1.1"
   }
 }

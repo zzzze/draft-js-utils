@@ -1,11 +1,13 @@
 /* @flow */
 
-import {BLOCK_TYPE, ENTITY_TYPE, INLINE_STYLE} from './Constants';
 import {Entity} from 'draft-js';
-import getEntityRanges from './getEntityRanges';
+import {
+  getEntityRanges,
+  BLOCK_TYPE, ENTITY_TYPE, INLINE_STYLE,
+} from 'draft-js-tools';
 
 import type {ContentState, ContentBlock} from 'draft-js';
-import type {CharacterMetaList} from './getEntityRanges';
+import type {CharacterMetaList} from 'draft-js-tools';
 
 const {
   BOLD,
