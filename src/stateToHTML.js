@@ -6,8 +6,10 @@ import {
   BLOCK_TYPE, ENTITY_TYPE, INLINE_STYLE,
 } from 'draft-js-tools';
 
-import type {ContentState, ContentBlock} from 'draft-js';
+import type {ContentState, ContentBlock, EntityInstance} from 'draft-js';
 import type {CharacterMetaList} from 'draft-js-tools';
+
+type StringMap = {[key: string]: ?string};
 
 const {
   BOLD,
@@ -20,7 +22,27 @@ const {
 const INDENT = '  ';
 const BREAK = '<br/>';
 
-// TODO: Move these getter functions. Also accept alternatives via config.
+// Map entity data to element attributes.
+const ENTITY_ATTR_MAP = {
+  [ENTITY_TYPE.LINK]: {url: 'href', rel: 'rel', target: 'target', title: 'title'},
+};
+
+// Map entity data to element attributes.
+const DATA_TO_ATTR = {
+  [ENTITY_TYPE.LINK](entityType: string, entity: EntityInstance): StringMap {
+    let attrMap = ENTITY_ATTR_MAP.hasOwnProperty(entityType) ? ENTITY_ATTR_MAP[entityType] : null;
+    let data = entity.getData();
+    let attrs = {};
+    for (let dataKey of Object.keys(data)) {
+      let dataValue = data[dataKey];
+      if (attrMap.hasOwnProperty(dataKey)) {
+        let attrKey = attrMap[dataKey];
+        attrs[attrKey] = dataValue;
+      }
+    }
+    return attrs;
+  },
+};
 
 // The reason this returns an array is because a single block might get wrapped
 // in two tags.
@@ -59,33 +81,6 @@ function getWrapperTag(blockType: string): ?string {
     default:
       return null;
   }
-}
-
-function canHaveDepth(blockType: string): boolean {
-  switch (blockType) {
-    case BLOCK_TYPE.UNORDERED_LIST_ITEM:
-    case BLOCK_TYPE.ORDERED_LIST_ITEM:
-      return true;
-    default:
-      return false;
-  }
-}
-
-function encodeContent(text: string): string {
-  return text
-    .split('&').join('&amp;')
-    .split('<').join('&lt;')
-    .split('>').join('&gt;')
-    .split('\xA0').join('&nbsp;')
-    .split('\n').join(BREAK + '\n');
-}
-
-function encodeAttr(text: string): string {
-  return text
-    .split('&').join('&amp;')
-    .split('<').join('&lt;')
-    .split('>').join('&gt;')
-    .split('"').join('&quot;');
 }
 
 class MarkupGenerator {
@@ -241,9 +236,11 @@ class MarkupGenerator {
         return content;
       }).join('');
       let entity = entityKey ? Entity.get(entityKey) : null;
-      if (entity != null && entity.getType() === ENTITY_TYPE.LINK) {
-        let url = entity.getData().url || '';
-        return `<a href="${encodeAttr(url)}">${content}</a>`;
+      let entityType = (entity == null) ? null : entity.getType();
+      if (entityType != null && entityType === ENTITY_TYPE.LINK) {
+        let attrs = DATA_TO_ATTR.hasOwnProperty(entityType) ? DATA_TO_ATTR[entityType](entityType, entity) : null;
+        let strAttrs = stringifyAttrs(attrs);
+        return `<a${strAttrs}>${content}</a>`;
       } else {
         return content;
       }
@@ -267,6 +264,47 @@ class MarkupGenerator {
     return newText.join('');
   }
 
+}
+
+function stringifyAttrs(attrs) {
+  if (attrs == null) {
+    return '';
+  }
+  let parts = [];
+  for (let attrKey of Object.keys(attrs)) {
+    let attrValue = attrs[attrKey];
+    if (attrValue != null) {
+      parts.push(` ${attrKey}="${encodeAttr(attrValue)}"`);
+    }
+  }
+  return parts.join('');
+}
+
+function canHaveDepth(blockType: string): boolean {
+  switch (blockType) {
+    case BLOCK_TYPE.UNORDERED_LIST_ITEM:
+    case BLOCK_TYPE.ORDERED_LIST_ITEM:
+      return true;
+    default:
+      return false;
+  }
+}
+
+function encodeContent(text: string): string {
+  return text
+    .split('&').join('&amp;')
+    .split('<').join('&lt;')
+    .split('>').join('&gt;')
+    .split('\xA0').join('&nbsp;')
+    .split('\n').join(BREAK + '\n');
+}
+
+function encodeAttr(text: string): string {
+  return text
+    .split('&').join('&amp;')
+    .split('<').join('&lt;')
+    .split('>').join('&gt;')
+    .split('"').join('&quot;');
 }
 
 export default function stateToHTML(content: ContentState): string {

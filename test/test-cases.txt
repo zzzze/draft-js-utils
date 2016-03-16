@@ -14,6 +14,10 @@
 {"entityMap":{},"blocks":[{"key":"9nc73","text":"BoldItalic","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":4,"length":6,"style":"BOLD"},{"offset":0,"length":4,"style":"ITALIC"}],"entityRanges":[]}]}
 <p><em>Bold</em><strong>Italic</strong></p>
 
+# Entity
+{"entityMap":{"0":{"type":"LINK","mutability":"MUTABLE","data":{"url":"/","rel":null,"title":"hi","extra":"foo"}}},"blocks":[{"key":"8r91j","text":"a","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":1,"style":"ITALIC"}],"entityRanges":[{"offset":0,"length":1,"key":0}]}]}
+<p><a href="/" title="hi"><em>a</em></a></p>
+
 # Entity with inline style
 {"entityMap":{"0":{"type":"LINK","mutability":"MUTABLE","data":{"url":"/"}}},"blocks":[{"key":"8r91j","text":"a","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":1,"style":"ITALIC"}],"entityRanges":[{"offset":0,"length":1,"key":0}]}]}
 <p><a href="/"><em>a</em></a></p>
