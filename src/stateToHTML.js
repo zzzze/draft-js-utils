@@ -30,7 +30,7 @@ const ENTITY_ATTR_MAP = {
 // Map entity data to element attributes.
 const DATA_TO_ATTR = {
   [ENTITY_TYPE.LINK](entityType: string, entity: EntityInstance): StringMap {
-    let attrMap = ENTITY_ATTR_MAP.hasOwnProperty(entityType) ? ENTITY_ATTR_MAP[entityType] : null;
+    let attrMap = ENTITY_ATTR_MAP.hasOwnProperty(entityType) ? ENTITY_ATTR_MAP[entityType] : {};
     let data = entity.getData();
     let attrs = {};
     for (let dataKey of Object.keys(data)) {
