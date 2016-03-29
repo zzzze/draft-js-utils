@@ -8,6 +8,11 @@ It was extracted from [React-RTE](https://react-rte.org) and placed into a separ
 
     npm install --save draft-js-export-html
 
+## How to Use
+
+    import {stateToHTML} from 'draft-js-export-html';
+    let html = stateToHTML(contentState);
+
 This project is still under development. If you want to help out, please open an issue to discuss or join us on [Slack](https://draftjs.slack.com/).
 
 ## License
