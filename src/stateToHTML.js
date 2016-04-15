@@ -24,8 +24,8 @@ const BREAK = '<br/>';
 
 // Map entity data to element attributes.
 const ENTITY_ATTR_MAP = {
-  [ENTITY_TYPE.LINK]: {url: 'href', rel: 'rel', target: 'target', title: 'title'},
-  [ENTITY_TYPE.IMAGE]: {src: 'src', height: 'height', width: 'width', alt: 'alt'},
+  [ENTITY_TYPE.LINK]: {url: 'href', rel: 'rel', target: 'target', title: 'title', className: 'class'},
+  [ENTITY_TYPE.IMAGE]: {src: 'src', height: 'height', width: 'width', alt: 'alt', className: 'class'},
 };
 
 // Map entity data to element attributes.
