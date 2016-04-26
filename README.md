@@ -43,8 +43,29 @@ let options = {
 let html = stateToHTML(contentState, options);
 ```
 
+### `blockRenderers`
 
-This project is still under development. If you want to help out, please open an issue to discuss or join us on [Slack](https://draftjs.slack.com/).
+You can define a custom renderer for any block type. Pass a function that accepts `block` as an argument. You can return a string to render this block yourself, or return nothing (null or undefined) to defer to the default renderer.
+
+Example:
+
+```javascript
+let options = {
+  blockRenderers: {
+    ATOMIC: (block) => {
+      let data = block.getData();
+      if (data.foo === 'bar') {
+        return '<div>' + escape(block.getText()) + '</div>';
+      }
+    },
+  },
+};
+let html = stateToHTML(contentState, options);
+```
+
+## Contributing
+
+If you want to help out, please open an issue to discuss or join us on [Slack](https://draftjs.slack.com/).
 
 ## License
 

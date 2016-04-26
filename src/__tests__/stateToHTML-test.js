@@ -53,4 +53,28 @@ describe('stateToHTML', () => {
       expect(stateToHTML(contentState, options)).toBe(html);
     });
   });
+
+  it('should support custom block renderer', () => {
+    let options = {
+      blockRenderers: {
+        'code-block': (block) => {
+          return `<div class="code">${block.getText()}</div>`;
+        },
+      },
+    };
+    let contentState = convertFromRaw(
+      // <pre><code>Hello <em>world</em>.</code></pre>
+      {"entityMap":{},"blocks":[{"key":"dn025","text":"Hello world.","type":"code-block","depth":0,"inlineStyleRanges":[{"offset":6,"length":5,"style":"ITALIC"}],"entityRanges":[]}]} // eslint-disable-line
+    );
+    expect(stateToHTML(contentState, options)).toBe(
+      '<div class="code">Hello world.</div>'
+    );
+    let contentState2 = convertFromRaw(
+      // <h1>Hello <em>world</em>.</h1>
+      {"entityMap":{},"blocks":[{"key":"dn025","text":"Hello world.","type":"header-one","depth":0,"inlineStyleRanges":[{"offset":6,"length":5,"style":"ITALIC"}],"entityRanges":[]}]} // eslint-disable-line
+    );
+    expect(stateToHTML(contentState2, options)).toBe(
+      '<h1>Hello <em>world</em>.</h1>'
+    );
+  });
 });

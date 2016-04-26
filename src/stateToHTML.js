@@ -25,10 +25,14 @@ type RenderConfig = {
   style?: StyleDescr;
 };
 
+type BlockRenderer = (block: ContentBlock) => ?string;
+type BlockRendererMap = {[blockType: string]: BlockRenderer};
+
 type StyleMap = {[styleName: string]: RenderConfig};
 
 type Options = {
   inlineStyles?: StyleMap;
+  blockRenderers?: BlockRendererMap;
 };
 
 const {
@@ -137,6 +141,7 @@ function getWrapperTag(blockType: string): ?string {
 }
 
 class MarkupGenerator {
+  // These are related to state.
   blocks: Array<ContentBlock>;
   contentState: ContentState;
   currentBlock: number;
@@ -144,6 +149,8 @@ class MarkupGenerator {
   output: Array<string>;
   totalBlocks: number;
   wrapperTag: ?string;
+  // These are related to user-defined options.
+  options: Options;
   inlineStyles: StyleMap;
   styleOrder: Array<string>;
 
@@ -152,6 +159,7 @@ class MarkupGenerator {
       options = {};
     }
     this.contentState = contentState;
+    this.options = options;
     let [inlineStyles, styleOrder] = combineOrderedStyles(
       options.inlineStyles,
       [DEFAULT_STYLE_MAP, DEFAULT_STYLE_ORDER],
@@ -175,6 +183,7 @@ class MarkupGenerator {
   }
 
   processBlock() {
+    let {blockRenderers} = this.options;
     let block = this.blocks[this.currentBlock];
     let blockType = block.getType();
     let newWrapperTag = getWrapperTag(blockType);
@@ -187,6 +196,18 @@ class MarkupGenerator {
       }
     }
     this.indent();
+    // Allow blocks to be rendered using a custom renderer.
+    let customRenderer = (blockRenderers != null && blockRenderers.hasOwnProperty(blockType)) ?
+      blockRenderers[blockType] :
+      null;
+    let customRendererOutput = customRenderer ? customRenderer(block) : null;
+    // Renderer can return null, which will cause processing to continue as normal.
+    if (customRendererOutput != null) {
+      this.output.push(customRendererOutput);
+      this.output.push('\n');
+      this.currentBlock += 1;
+      return;
+    }
     this.writeStartTag(blockType);
     this.output.push(this.renderBlockContent(block));
     // Look ahead and see if we will nest list.
