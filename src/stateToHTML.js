@@ -253,7 +253,8 @@ class MarkupGenerator {
         return content;
       }).join('');
       let entity = entityKey ? Entity.get(entityKey) : null;
-      let entityType = (entity == null) ? null : entity.getType();
+      // Note: The `toUpperCase` below is for compatability with some libraries that use lower-case for image blocks.
+      let entityType = (entity == null) ? null : entity.getType().toUpperCase();
       if (entityType != null && entityType === ENTITY_TYPE.LINK) {
         let attrs = DATA_TO_ATTR.hasOwnProperty(entityType) ? DATA_TO_ATTR[entityType](entityType, entity) : null;
         let strAttrs = stringifyAttrs(attrs);
