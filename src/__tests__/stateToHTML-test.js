@@ -26,9 +26,7 @@ describe('stateToHTML', () => {
   testCases.forEach((testCase) => {
     let {description, state, html} = testCase;
     it(`should render ${description}`, () => {
-      let contentState = ContentState.createFromBlockArray(
-        convertFromRaw(state)
-      );
+      let contentState = convertFromRaw(state);
       expect(stateToHTML(contentState)).toBe(html);
     });
   });
