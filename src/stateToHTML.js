@@ -24,6 +24,7 @@ const {
 
 const INDENT = '  ';
 const BREAK = '<br>';
+const DATA_ATTRIBUTE = /^data-([a-z0-9-]+)$/;
 
 // Map entity data to element attributes.
 const ENTITY_ATTR_MAP: AttrMap = {
@@ -42,7 +43,7 @@ const DATA_TO_ATTR = {
       if (attrMap.hasOwnProperty(dataKey)) {
         const attrKey = attrMap[dataKey];
         attrs[attrKey] = dataValue;
-      } else if (dataKey.match(/^data-([a-z0-9-]+)$/)) {
+      } else if (DATA_ATTRIBUTE.test(dataKey)) {
         attrs[dataKey] = dataValue;
       }
     }
