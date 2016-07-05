@@ -11,28 +11,36 @@ It was extracted from [React-RTE](https://react-rte.org) and placed into a separ
 ## How to Use
 
 ```javascript
-  import {stateToHTML} from 'draft-js-export-html';
-  let html = stateToHTML(contentState);
+import {stateToHTML} from 'draft-js-export-html';
+let html = stateToHTML(contentState);
 ```
 
 ## Options
 
-`stateToHTML` accepts an optional options object as a second argument.
+You can optionally pass a second "options" argument to `stateToHTML` which should be an object with one or more of the following properties:
 
-| Option key     | Option Description   |
-| -------------- | -------------------- |
-| customStyleMap | Custom style mapping object, similar to the [customStyleMap](https://facebook.github.io/draft-js/docs/advanced-topics-inline-styles.html#mapping-a-style-string-to-css) the draft-js `Editor` receives.  |
+### `inlineStyles`
 
-Example of options usage:
+You can define rendering options for inline styles. This applies to built-in inline styles (e.g. `BOLD`) or your own custom inline styles (e.g. `RED`). You can specify which element/tag name will be used (e.g. use `<b>` instead of `<strong>` for `BOLD`). You can add custom attributes (e.g. `class="foo"`) or add some styling (e.g. `color: red`).
+
+Example:
 
 ```javascript
-  import {stateToHTML} from 'draft-js-export-html';
-  let options = {
-    customStyleMap: {
-      RED: { color: 'red' }
-    }
-  };
-  let html = stateToHTML(contentState, options);
+let options = {
+  inlineStyles: {
+    // Override default element (`strong`).
+    BOLD: {element: 'b'},
+    ITALIC: {
+      // Add custom attributes. You can also use React-style `className`.
+      attributes: {class: 'foo'},
+      // Use camel-case. Units (`px`) will be added where necessary.
+      style: {fontSize: 12}
+    },
+    // Use a custom inline style. Default element is `span`.
+    RED: {style: {color: '#900'}},
+  },
+};
+let html = stateToHTML(contentState, options);
 ```
 
 
