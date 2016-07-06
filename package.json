@@ -13,8 +13,7 @@
     "watch": "npm run build -- --watch"
   },
   "dependencies": {
-    "draft-js-utils": "^0.1.5",
-    "fbjs": "^0.8.3"
+    "draft-js-utils": "^0.1.5"
   },
   "peerDependencies": {
     "draft-js": ">=0.6.0",
