@@ -14,12 +14,27 @@ let testCasesRaw = fs.readFileSync(
   'utf8',
 );
 
+// These test cases specify custom options also.
+let testCasesCustomRaw = fs.readFileSync(
+  join(__dirname, '..', '..', 'test', 'test-cases-custom.txt'),
+  'utf8',
+);
+
 let testCases = testCasesRaw.slice(1).trim().split(SEP).map((text) => {
   let lines = text.split('\n');
   let description = lines.shift().trim();
-  let state = JSON.parse(lines[0]);
-  let html = lines.slice(1).join('\n');
+  let state = JSON.parse(lines.shift());
+  let html = lines.join('\n');
   return {description, state, html};
+});
+
+let testCasesCustom = testCasesCustomRaw.slice(1).trim().split(SEP).map((text) => {
+  let lines = text.split('\n');
+  let description = lines.shift().trim();
+  let options = JSON.parse(lines.shift());
+  let state = JSON.parse(lines.shift());
+  let html = lines.join('\n');
+  return {description, options, state, html};
 });
 
 describe('stateToHTML', () => {
@@ -27,11 +42,14 @@ describe('stateToHTML', () => {
     let {description, state, html} = testCase;
     it(`should render ${description}`, () => {
       let contentState = convertFromRaw(state);
-      let options = {
-        inlineStyles: {
-          RED: {style: {color: 'red'}},
-        },
-      };
+      expect(stateToHTML(contentState)).toBe(html);
+    });
+  });
+
+  testCasesCustom.forEach((testCase) => {
+    let {description, options, state, html} = testCase;
+    it(`should render ${description}`, () => {
+      let contentState = convertFromRaw(state);
       expect(stateToHTML(contentState, options)).toBe(html);
     });
   });
