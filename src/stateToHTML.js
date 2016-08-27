@@ -19,13 +19,10 @@ type AttrMap = {[key: string]: string};
 type Attributes = {[key: string]: string};
 type StyleDescr = {[key: string]: number | string};
 
-interface AttributesConfig {
+type RenderConfig = {
+  element?: string;
   attributes?: Attributes;
   style?: StyleDescr;
-}
-
-interface RenderConfig extends AttributesConfig {
-  element?: string;
 };
 
 type BlockRenderer = (block: ContentBlock) => ?string;
@@ -258,7 +255,7 @@ class MarkupGenerator {
 
     let attrString;
     if (this.options.blockStyleFn) {
-      let { attributes, style } = this.options.blockStyleFn(block) || {};
+      let {attributes, style} = this.options.blockStyleFn(block) || {};
       // Normalize `className` -> `class`, etc.
       attributes = normalizeAttributes(attributes);
       if (style != null) {
@@ -271,7 +268,7 @@ class MarkupGenerator {
     }
 
     for (let tag of tags) {
-      this.output.push(`<${tag}${attrString}>`)
+      this.output.push(`<${tag}${attrString}>`);
     }
   }
 
@@ -296,10 +293,11 @@ class MarkupGenerator {
   }
 
   closeWrapperTag() {
-    if (this.wrapperTag) {
+    let {wrapperTag} = this;
+    if (wrapperTag) {
       this.indentLevel -= 1;
       this.indent();
-      this.output.push(`</${this.wrapperTag}>\n`);
+      this.output.push(`</${wrapperTag}>\n`);
       this.wrapperTag = null;
     }
   }

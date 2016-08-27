@@ -84,11 +84,11 @@ describe('stateToHTML', () => {
         if (block.getData().get('alignment')) {
           return {
             style: {
-              textAlign: block.getData().get('alignment')
-            }
+              textAlign: block.getData().get('alignment'),
+            },
           };
         }
-      }
+      },
     };
     let contentState1 = convertFromRaw(
       // <h1 style="text-align: left;">Hello <em>world</em>.</h1>
