@@ -4,7 +4,6 @@ import combineOrderedStyles from './helpers/combineOrderedStyles';
 import normalizeAttributes from './helpers/normalizeAttributes';
 import styleToCSS from './helpers/styleToCSS';
 
-import {Entity} from 'draft-js';
 import {
   getEntityRanges,
   BLOCK_TYPE,
@@ -12,7 +11,7 @@ import {
   INLINE_STYLE,
 } from 'draft-js-utils';
 
-import type {ContentState, ContentBlock, EntityInstance} from 'draft-js';
+import type {ContentState, ContentBlock, Entity, EntityInstance} from 'draft-js';
 import type {CharacterMetaList} from 'draft-js-utils';
 
 type AttrMap = {[key: string]: string};
@@ -343,7 +342,7 @@ class MarkupGenerator {
         }
         return content;
       }).join('');
-      let entity = entityKey ? getEntity(this.contentState, entityKey) : null;
+      let entity = entityKey ? this.contentState.getEntity(entityKey) : null;
       // Note: The `toUpperCase` below is for compatability with some libraries that use lower-case for image blocks.
       let entityType = (entity == null) ? null : entity.getType().toUpperCase();
       let entityStyle;
@@ -391,10 +390,6 @@ class MarkupGenerator {
     return newText.join('');
   }
 
-}
-
-function getEntity(contentState, entityKey) {
-  return contentState.getEntity ? contentState.getEntity(entityKey) : Entity.get(entityKey);
 }
 
 function stringifyAttrs(attrs: ?Attributes) {
