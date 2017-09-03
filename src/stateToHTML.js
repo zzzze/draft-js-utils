@@ -57,7 +57,7 @@ const DEFAULT_STYLE_MAP = {
   [CODE]: {element: 'code'},
   [ITALIC]: {element: 'em'},
   [STRIKETHROUGH]: {element: 'del'},
-  [UNDERLINE]: {element: 'ins'},
+  [UNDERLINE]: {element: 'u'},
 };
 
 // Order: inner-most style to outer-most.
