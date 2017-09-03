@@ -1,13 +1,13 @@
 {
   "name": "draft-js-export-markdown",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "DraftJS: Export ContentState to Markdown",
   "main": "lib/main.js",
   "scripts": {
     "build": "babel src --out-dir lib --ignore \"_*\""
   },
   "dependencies": {
-    "draft-js-utils": "^1.0.1"
+    "draft-js-utils": "^1.0.2"
   },
   "peerDependencies": {
     "draft-js": ">=0.10.0",
