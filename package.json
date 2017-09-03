@@ -1,17 +1,17 @@
 {
-	"name": "draft-js-utils",
-	"scripts": {
+  "name": "draft-js-utils",
+  "scripts": {
     "lint": "eslint --max-warnings 0 .",
     "typecheck": "flow",
     "test": "yarn lint && yarn typecheck && yarn test-src",
-    "test-src": "mocha \"src/**/__tests__/*.js\""
-	},
-	"dependencies": {
-		"draft-js": ">=0.10.0",
+    "test-src": "jest"
+  },
+  "dependencies": {
+    "draft-js": ">=0.10.0",
     "immutable": "3.x.x"
-	},
-	"devDependencies": {
-		"babel-cli": "^6.10.1",
+  },
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
     "babel-core": "^6.9.1",
     "babel-eslint": "^7.0.0",
     "babel-plugin-transform-class-properties": "^6.9.1",
@@ -24,10 +24,17 @@
     "eslint-plugin-react": "^6.3.0",
     "expect": "^1.20.1",
     "flow-bin": "^0.32.0",
-		"jsdom": "^9.8.0",
-		"lerna": "^2.1.2",
-    "mocha": "^3.1.0",
+    "jest": "^20.0.4",
+    "jsdom": "^9.8.0",
+    "lerna": "^2.1.2",
     "react": "^15.1.0",
     "react-dom": "^15.1.0"
+  },
+	"jest": {
+		"moduleNameMapper": {
+			"draft-js-import-element": "<rootDir>/packages/draft-js-import-element/src/main.js",
+			"draft-js-utils": "<rootDir>/packages/draft-js-utils/src/main.js",
+			"synthetic-dom": "<rootDir>/packages/synthetic-dom/src/main.js"
+		}
 	}
 }
