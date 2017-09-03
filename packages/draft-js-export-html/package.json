@@ -4,7 +4,9 @@
   "description": "DraftJS: Export ContentState to HTML",
   "main": "lib/main.js",
   "typings": "typings/index.d.ts",
-  "scripts": {},
+  "scripts": {
+    "build": "babel src --out-dir lib --ignore \"_*\""
+  },
   "dependencies": {
     "draft-js-utils": "^1.0.0"
   },

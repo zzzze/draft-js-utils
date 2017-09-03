@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Collection of utilities for DraftJS",
   "main": "lib/main.js",
-  "scripts": {},
+  "scripts": {
+    "build": "babel src --out-dir lib --ignore \"_*\""
+  },
   "dependencies": {},
   "peerDependencies": {
     "draft-js": ">=0.10.0",

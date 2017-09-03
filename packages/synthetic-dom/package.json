@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Synthetic HTML DOM for use with parsing within React-RTE",
   "main": "lib/main.js",
-  "scripts": {},
+  "scripts": {
+    "build": "babel src --out-dir lib --ignore \"_*\""
+  },
   "dependencies": {},
   "devDependencies": {},
   "keywords": [
