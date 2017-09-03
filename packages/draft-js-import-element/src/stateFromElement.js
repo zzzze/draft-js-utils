@@ -350,6 +350,7 @@ class ContentGenerator {
 
   processNode(node: DOMNode) {
     if (node.nodeType === NODE_TYPE_ELEMENT) {
+      // $FlowIssue
       let element: DOMElement = node;
       let tagName = element.nodeName.toLowerCase();
       if (INLINE_ELEMENTS.hasOwnProperty(tagName)) {
