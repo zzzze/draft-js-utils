@@ -2,6 +2,7 @@
   "name": "draft-js-utils",
   "scripts": {
     "build": "lerna run build",
+    "format": "prettier-eslint --write \"packages/*/src/**/*.js\"",
     "lint": "eslint --max-warnings 0 .",
     "typecheck": "flow",
     "test": "yarn lint && yarn typecheck && yarn test-src",
@@ -27,6 +28,7 @@
     "flow-bin": "^0.32.0",
     "jest": "^20.0.4",
     "lerna": "^2.1.2",
+    "prettier-eslint-cli": "^4.3.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0"
   },
@@ -36,5 +38,10 @@
       "draft-js-utils": "<rootDir>/packages/draft-js-utils/src/main.js",
       "synthetic-dom": "<rootDir>/packages/synthetic-dom/src/main.js"
     }
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "singleQuote": true,
+    "trailingComma": "all"
   }
 }
