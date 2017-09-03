@@ -1,6 +1,5 @@
 // @flow
-const {describe, it} = global;
-import expect from 'expect';
+const {describe, it, expect} = global;
 import stateFromElement from '../stateFromElement';
 import {TextNode, ElementNode} from 'synthetic-dom';
 import {convertToRaw} from 'draft-js';
