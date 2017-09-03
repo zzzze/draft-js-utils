@@ -9,13 +9,7 @@ import {
 
 import type {ContentState, ContentBlock} from 'draft-js';
 
-const {
-  BOLD,
-  CODE,
-  ITALIC,
-  STRIKETHROUGH,
-  UNDERLINE,
-} = INLINE_STYLE;
+const {BOLD, CODE, ITALIC, STRIKETHROUGH, UNDERLINE} = INLINE_STYLE;
 
 const CODE_INDENT = '    ';
 
@@ -81,13 +75,11 @@ class MarkupGenerator {
         let blockDepth = block.getDepth();
         let lastBlock = this.getLastBlock();
         let lastBlockType = lastBlock ? lastBlock.getType() : null;
-        let lastBlockDepth = lastBlock && canHaveDepth(lastBlockType) ?
-          lastBlock.getDepth() :
-          null;
-        if (
-          lastBlockType !== blockType &&
-          lastBlockDepth !== blockDepth - 1
-        ) {
+        let lastBlockDepth =
+          lastBlock && canHaveDepth(lastBlockType)
+            ? lastBlock.getDepth()
+            : null;
+        if (lastBlockType !== blockType && lastBlockDepth !== blockDepth - 1) {
           this.insertLineBreaks(1);
           // Insert an additional line break if following opposite list type.
           if (lastBlockType === BLOCK_TYPE.ORDERED_LIST_ITEM) {
@@ -95,18 +87,17 @@ class MarkupGenerator {
           }
         }
         let indent = ' '.repeat(block.depth * 4);
-        this.output.push(
-          indent + '- ' + this.renderBlockContent(block) + '\n'
-        );
+        this.output.push(indent + '- ' + this.renderBlockContent(block) + '\n');
         break;
       }
       case BLOCK_TYPE.ORDERED_LIST_ITEM: {
         let blockDepth = block.getDepth();
         let lastBlock = this.getLastBlock();
         let lastBlockType = lastBlock ? lastBlock.getType() : null;
-        let lastBlockDepth = lastBlock && canHaveDepth(lastBlockType) ?
-          lastBlock.getDepth() :
-          null;
+        let lastBlockDepth =
+          lastBlock && canHaveDepth(lastBlockType)
+            ? lastBlock.getDepth()
+            : null;
         if (lastBlockType !== blockType && lastBlockDepth !== blockDepth - 1) {
           this.insertLineBreaks(1);
           // Insert an additional line break if following opposite list type.
@@ -118,7 +109,7 @@ class MarkupGenerator {
         // TODO: figure out what to do with two-digit numbers
         let count = this.getListItemCount(block) % 10;
         this.output.push(
-          indent + `${count}. ` + this.renderBlockContent(block) + '\n'
+          indent + `${count}. ` + this.renderBlockContent(block) + '\n',
         );
         break;
       }
@@ -171,9 +162,8 @@ class MarkupGenerator {
     ) {
       this.listItemCounts[blockDepth] = 0;
     }
-    return (
-      this.listItemCounts[blockDepth] = this.listItemCounts[blockDepth] + 1
-    );
+    return (this.listItemCounts[blockDepth] =
+      this.listItemCounts[blockDepth] + 1);
   }
 
   insertLineBreaks() {
@@ -193,47 +183,52 @@ class MarkupGenerator {
     }
     let charMetaList = block.getCharacterList();
     let entityPieces = getEntityRanges(text, charMetaList);
-    return entityPieces.map(([entityKey, stylePieces]) => {
-      let content = stylePieces.map(([text, style]) => {
-        // Don't allow empty inline elements.
-        if (!text) {
-          return '';
+    return entityPieces
+      .map(([entityKey, stylePieces]) => {
+        let content = stylePieces
+          .map(([text, style]) => {
+            // Don't allow empty inline elements.
+            if (!text) {
+              return '';
+            }
+            let content = encodeContent(text);
+            if (style.has(BOLD)) {
+              content = `**${content}**`;
+            }
+            if (style.has(UNDERLINE)) {
+              // TODO: encode `+`?
+              content = `++${content}++`;
+            }
+            if (style.has(ITALIC)) {
+              content = `_${content}_`;
+            }
+            if (style.has(STRIKETHROUGH)) {
+              // TODO: encode `~`?
+              content = `~~${content}~~`;
+            }
+            if (style.has(CODE)) {
+              content =
+                blockType === BLOCK_TYPE.CODE ? content : '`' + content + '`';
+            }
+            return content;
+          })
+          .join('');
+        let entity = entityKey ? contentState.getEntity(entityKey) : null;
+        if (entity != null && entity.getType() === ENTITY_TYPE.LINK) {
+          let data = entity.getData();
+          let url = data.url || '';
+          let title = data.title ? ` "${escapeTitle(data.title)}"` : '';
+          return `[${content}](${encodeURL(url)}${title})`;
+        } else if (entity != null && entity.getType() === ENTITY_TYPE.IMAGE) {
+          let data = entity.getData();
+          let src = data.src || '';
+          let alt = data.alt ? ` "${escapeTitle(data.alt)}"` : '';
+          return `![${alt}](${encodeURL(src)})`;
+        } else {
+          return content;
         }
-        let content = encodeContent(text);
-        if (style.has(BOLD)) {
-          content = `**${content}**`;
-        }
-        if (style.has(UNDERLINE)) {
-          // TODO: encode `+`?
-          content = `++${content}++`;
-        }
-        if (style.has(ITALIC)) {
-          content = `_${content}_`;
-        }
-        if (style.has(STRIKETHROUGH)) {
-          // TODO: encode `~`?
-          content = `~~${content}~~`;
-        }
-        if (style.has(CODE)) {
-          content = (blockType === BLOCK_TYPE.CODE) ? content : '`' + content + '`';
-        }
-        return content;
-      }).join('');
-      let entity = entityKey ? contentState.getEntity(entityKey) : null;
-      if (entity != null && entity.getType() === ENTITY_TYPE.LINK) {
-        let data = entity.getData();
-        let url = data.url || '';
-        let title = data.title ? ` "${escapeTitle(data.title)}"` : '';
-        return `[${content}](${encodeURL(url)}${title})`;
-      } else if (entity != null && entity.getType() === ENTITY_TYPE.IMAGE) {
-        let data = entity.getData();
-        let src = data.src || '';
-        let alt = data.alt ? ` "${escapeTitle(data.alt)}"` : '';
-        return `![${alt}](${encodeURL(src)})`;
-      } else {
-        return content;
-      }
-    }).join('');
+      })
+      .join('');
   }
 }
 

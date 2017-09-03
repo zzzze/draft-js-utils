@@ -22,9 +22,15 @@ const splitLastBlock = (editorState) => {
   );
 };
 
-const editorState = [...Array(3)].reduce((state) => splitLastBlock(state), EditorState.createEmpty());
+const editorState = [...Array(3)].reduce(
+  (state) => splitLastBlock(state),
+  EditorState.createEmpty(),
+);
 const contentState = editorState.getCurrentContent();
-const blockKeys = contentState.getBlockMap().keySeq().toArray();
+const blockKeys = contentState
+  .getBlockMap()
+  .keySeq()
+  .toArray();
 
 describe('getSelectedBlocks', () => {
   it('should return the blocks between two blocks, inclusive', () => {
@@ -32,7 +38,9 @@ describe('getSelectedBlocks', () => {
     const focusKey = blockKeys[3];
     const allBlocks = blockKeys.map((key) => contentState.getBlockForKey(key));
 
-    expect(getSelectedBlocks(contentState, anchorKey, focusKey)).toEqual(allBlocks);
+    expect(getSelectedBlocks(contentState, anchorKey, focusKey)).toEqual(
+      allBlocks,
+    );
   });
 
   it('should return a single block if anchor and focus key are the same', () => {

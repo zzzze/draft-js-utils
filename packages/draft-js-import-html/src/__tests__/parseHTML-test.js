@@ -16,8 +16,8 @@ describe('parseHTML', () => {
       expect(element.firstChild && element.firstChild.nodeName).toBe('P');
       expect(
         element.firstChild &&
-        element.firstChild.firstChild &&
-        element.firstChild.firstChild.nodeValue
+          element.firstChild.firstChild &&
+          element.firstChild.firstChild.nodeValue,
       ).toBe('Hello World');
     });
   });
@@ -35,8 +35,8 @@ describe('parseHTML', () => {
       expect(element.lastChild && element.lastChild.nodeName).toBe('DIV');
       expect(
         element.firstChild &&
-        element.firstChild.firstChild &&
-        element.firstChild.firstChild.nodeName
+          element.firstChild.firstChild &&
+          element.firstChild.firstChild.nodeName,
       ).toBe('STRONG');
     });
   });

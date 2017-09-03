@@ -2,10 +2,7 @@
 const {describe, it} = global;
 import expect from 'expect';
 import stateFromElement from '../stateFromElement';
-import {
-  TextNode,
-  ElementNode,
-} from 'synthetic-dom';
+import {TextNode, ElementNode} from 'synthetic-dom';
 import {convertToRaw} from 'draft-js';
 import fs from 'fs';
 import {join} from 'path';
@@ -18,13 +15,17 @@ let testCasesRaw = fs.readFileSync(
   'utf8',
 );
 
-let testCases = testCasesRaw.slice(1).trim().split(SEP).map((text) => {
-  let lines = text.split('\n');
-  let description = lines.shift().trim();
-  let state = removeBlockKeys(JSON.parse(lines[0]));
-  let html = lines.slice(1).join('\n');
-  return {description, state, html};
-});
+let testCases = testCasesRaw
+  .slice(1)
+  .trim()
+  .split(SEP)
+  .map((text) => {
+    let lines = text.split('\n');
+    let description = lines.shift().trim();
+    let state = removeBlockKeys(JSON.parse(lines[0]));
+    let html = lines.slice(1).join('\n');
+    return {description, state, html};
+  });
 
 describe('stateFromElement', () => {
   it('should create content state', () => {
@@ -32,9 +33,19 @@ describe('stateFromElement', () => {
     let element = new ElementNode('div', [], [textNode]);
     let contentState = stateFromElement(element);
     let rawContentState = removeBlockKeys(convertToRaw(contentState));
-    expect(rawContentState).toEqual(
-      {entityMap: {}, blocks: [{text: 'Hello World', type: 'unstyled', data: {}, depth: 0, inlineStyleRanges: [], entityRanges: []}]}
-    );
+    expect(rawContentState).toEqual({
+      entityMap: {},
+      blocks: [
+        {
+          text: 'Hello World',
+          type: 'unstyled',
+          data: {},
+          depth: 0,
+          inlineStyleRanges: [],
+          entityRanges: [],
+        },
+      ],
+    });
   });
 
   it('supports option customBlockFn (type)', () => {
@@ -50,27 +61,54 @@ describe('stateFromElement', () => {
     };
     let contentState = stateFromElement(element, options);
     let rawContentState = removeBlockKeys(convertToRaw(contentState));
-    expect(rawContentState).toEqual(
-      {entityMap: {}, blocks: [{text: 'Hello World', type: 'center-align', data: {}, depth: 0, inlineStyleRanges: [], entityRanges: []}]}
-    );
+    expect(rawContentState).toEqual({
+      entityMap: {},
+      blocks: [
+        {
+          text: 'Hello World',
+          type: 'center-align',
+          data: {},
+          depth: 0,
+          inlineStyleRanges: [],
+          entityRanges: [],
+        },
+      ],
+    });
   });
 
   it('supports option customBlockFn (data)', () => {
     let textNode = new TextNode('Hello World');
-    let element = new ElementNode('p', [{name: 'align', value: 'right'}], [textNode]);
+    let element = new ElementNode(
+      'p',
+      [{name: 'align', value: 'right'}],
+      [textNode],
+    );
     let options = {
       customBlockFn(element) {
         let {nodeName} = element;
-        if (nodeName.toLowerCase() === 'p' && element.getAttribute('align') === 'right') {
+        if (
+          nodeName.toLowerCase() === 'p' &&
+          element.getAttribute('align') === 'right'
+        ) {
           return {data: {textAlign: 'right'}};
         }
       },
     };
     let contentState = stateFromElement(element, options);
     let rawContentState = removeBlockKeys(convertToRaw(contentState));
-    expect(rawContentState).toEqual(
-      {entityMap: {}, blocks: [{text: 'Hello World', type: 'unstyled', data: {textAlign: 'right'}, depth: 0, inlineStyleRanges: [], entityRanges: []}]}
-    );
+    expect(rawContentState).toEqual({
+      entityMap: {},
+      blocks: [
+        {
+          text: 'Hello World',
+          type: 'unstyled',
+          data: {textAlign: 'right'},
+          depth: 0,
+          inlineStyleRanges: [],
+          entityRanges: [],
+        },
+      ],
+    });
   });
 
   it('supports option elementStyles', () => {
@@ -84,9 +122,19 @@ describe('stateFromElement', () => {
     };
     let contentState = stateFromElement(wrapperElement, options);
     let rawContentState = removeBlockKeys(convertToRaw(contentState));
-    expect(rawContentState).toEqual(
-      {entityMap: {}, blocks: [{text: 'Superscript', type: 'unstyled', data: {}, depth: 0, inlineStyleRanges: [{offset: 0, length: 11, style: 'SUPERSCRIPT'}], entityRanges: []}]}
-    );
+    expect(rawContentState).toEqual({
+      entityMap: {},
+      blocks: [
+        {
+          text: 'Superscript',
+          type: 'unstyled',
+          data: {},
+          depth: 0,
+          inlineStyleRanges: [{offset: 0, length: 11, style: 'SUPERSCRIPT'}],
+          entityRanges: [],
+        },
+      ],
+    });
   });
 });
 
@@ -96,7 +144,7 @@ describe('stateFromHTML', () => {
     it(`should render ${description}`, () => {
       let element = parseHTML(html);
       let actualState = removeBlockKeys(
-        convertToRaw(stateFromElement(element))
+        convertToRaw(stateFromElement(element)),
       );
       expect(actualState).toEqual(state);
     });

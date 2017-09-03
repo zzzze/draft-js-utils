@@ -7,7 +7,6 @@ import {EditorState, Modifier, SelectionState} from 'draft-js';
 const DUMMY_ENTITY = 'DUMMY_ENTITY';
 
 const strategy = (contentBlock, callback, contentState) => {
-
   contentBlock.findEntityRanges((character) => {
     const entityKey = character.getEntity();
     return (
@@ -21,10 +20,7 @@ const insertDummyText = (editorState, text, withEntity) => {
   let contentState = editorState.getCurrentContent();
   let entityKey;
   if (withEntity) {
-    contentState = contentState.createEntity(
-      DUMMY_ENTITY,
-      'MUTABLE',
-    );
+    contentState = contentState.createEntity(DUMMY_ENTITY, 'MUTABLE');
     entityKey = contentState.getLastCreatedEntityKey();
   }
   return EditorState.push(
@@ -98,7 +94,9 @@ describe('selectionContainsEntity', () => {
       focusOffset: last.getLength(),
     });
 
-    expect(selectionContainsEntity(strategy)(editorState, lastBlockWithEntity)).toEqual(true);
+    expect(
+      selectionContainsEntity(strategy)(editorState, lastBlockWithEntity),
+    ).toEqual(true);
 
     const lastBlockWithoutEntity = new SelectionState({
       anchorKey: last.getKey(),
@@ -107,7 +105,9 @@ describe('selectionContainsEntity', () => {
       focusOffset: 10,
     });
 
-    expect(selectionContainsEntity(strategy)(editorState, lastBlockWithoutEntity)).toEqual(false);
+    expect(
+      selectionContainsEntity(strategy)(editorState, lastBlockWithoutEntity),
+    ).toEqual(false);
 
     const firstBlockWithoutEntity = new SelectionState({
       anchorKey: first.getKey(),
@@ -116,6 +116,8 @@ describe('selectionContainsEntity', () => {
       focusOffset: first.getLength(),
     });
 
-    expect(selectionContainsEntity(strategy)(editorState, firstBlockWithoutEntity)).toEqual(false);
+    expect(
+      selectionContainsEntity(strategy)(editorState, firstBlockWithoutEntity),
+    ).toEqual(false);
   });
 });

@@ -29,7 +29,7 @@ export default function getEntityRanges(
         prevCharEntity,
         getStyleRanges(
           text.slice(rangeStart, i),
-          charMetaList.slice(rangeStart, i)
+          charMetaList.slice(rangeStart, i),
         ),
       ]);
       rangeStart = i;
@@ -37,10 +37,7 @@ export default function getEntityRanges(
   }
   ranges.push([
     charEntity,
-    getStyleRanges(
-      text.slice(rangeStart),
-      charMetaList.slice(rangeStart)
-    ),
+    getStyleRanges(text.slice(rangeStart), charMetaList.slice(rangeStart)),
   ]);
   return ranges;
 }

@@ -12,9 +12,16 @@ describe('stateFromHTML', () => {
     let contentState = stateFromHTML(html);
     let rawContentState = convertToRaw(contentState);
     let blocks = removeKeys(rawContentState.blocks);
-    expect(blocks).toEqual(
-      [{text: 'Hello World', type: 'unstyled', data: {}, depth: 0, inlineStyleRanges: [], entityRanges: []}]
-    );
+    expect(blocks).toEqual([
+      {
+        text: 'Hello World',
+        type: 'unstyled',
+        data: {},
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+      },
+    ]);
   });
 
   it('should accept a custom parser', () => {
@@ -30,9 +37,16 @@ describe('stateFromHTML', () => {
     expect(calledWith[0][0]).toBe(html);
     let rawContentState = convertToRaw(contentState);
     let blocks = removeKeys(rawContentState.blocks);
-    expect(blocks).toEqual(
-      [{text: 'Hello World', type: 'unstyled', data: {}, depth: 0, inlineStyleRanges: [], entityRanges: []}]
-    );
+    expect(blocks).toEqual([
+      {
+        text: 'Hello World',
+        type: 'unstyled',
+        data: {},
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+      },
+    ]);
   });
 });
 

@@ -62,7 +62,11 @@ describe('Elements', () => {
     } else {
       expect(firstChild).toBeAn(ElementNode);
     }
-    expect(element.toString()).toBe('<div className="foo"><p><br><br></p></div>');
-    expect(element.toString(true)).toBe('<div className="foo"><p><br/><br/></p></div>');
+    expect(element.toString()).toBe(
+      '<div className="foo"><p><br><br></p></div>',
+    );
+    expect(element.toString(true)).toBe(
+      '<div className="foo"><p><br/><br/></p></div>',
+    );
   });
 });

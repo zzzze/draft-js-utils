@@ -19,9 +19,7 @@ describe('styleToCSS', () => {
       color: 'red',
       padding: '2px',
     };
-    expect(styleToCSS(styles)).toBe(
-      'color: red; padding: 2px'
-    );
+    expect(styleToCSS(styles)).toBe('color: red; padding: 2px');
   });
 
   it('should convert camelCase to hyphenated', () => {
@@ -31,7 +29,7 @@ describe('styleToCSS', () => {
       webkitAppearance: 'none',
     };
     expect(styleToCSS(styles)).toBe(
-      'font-weight: bold; -ms-grid-column: auto; -webkit-appearance: none'
+      'font-weight: bold; -ms-grid-column: auto; -webkit-appearance: none',
     );
   });
 
@@ -40,8 +38,6 @@ describe('styleToCSS', () => {
       lineHeight: 1,
       fontSize: 12,
     };
-    expect(styleToCSS(styles)).toBe(
-      'line-height: 1; font-size: 12px'
-    );
+    expect(styleToCSS(styles)).toBe('line-height: 1; font-size: 12px');
   });
 });

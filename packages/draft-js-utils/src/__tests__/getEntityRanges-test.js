@@ -18,9 +18,7 @@ describe('getEntityRanges', () => {
     let emptyCharMeta: CharacterMetaList = List();
     let emptyStyleRange = ['', EMPTY_SET];
     let emptyEntityRange = [null, [emptyStyleRange]];
-    expect(getEntityRanges('', emptyCharMeta)).toEqual(
-      [emptyEntityRange]
-    );
+    expect(getEntityRanges('', emptyCharMeta)).toEqual([emptyEntityRange]);
   });
 
   // TODO: Fix this test.
@@ -29,9 +27,7 @@ describe('getEntityRanges', () => {
     let charMeta = List(Repeat(EMPTY_META, text.length));
     let styleRange = [text, EMPTY_SET];
     let entityRange = [null, [styleRange]];
-    expect(getEntityRanges(text, charMeta)).toEqual(
-      [entityRange]
-    );
+    expect(getEntityRanges(text, charMeta)).toEqual([entityRange]);
   });
 
   // TODO: Fix this test.
@@ -51,9 +47,7 @@ describe('getEntityRanges', () => {
       ['o', EMPTY_SET.add(ITALIC)],
     ];
     let entityRange = [null, styleRanges];
-    expect(getEntityRanges(text, charMeta)).toEqual(
-      [entityRange]
-    );
+    expect(getEntityRanges(text, charMeta)).toEqual([entityRange]);
   });
 
   // TODO: Fix this test.
@@ -68,18 +62,16 @@ describe('getEntityRanges', () => {
       CharacterMetadata.applyEntity(EMPTY_META, entKey),
       EMPTY_META,
     );
-    let entityRange1 = [null, [
-      ['h', EMPTY_SET.add(BOLD)],
-    ]];
-    let entityRange2 = [entKey, [
-      ['el', EMPTY_SET.add(BOLD)],
-      ['l', EMPTY_SET],
-    ]];
-    let entityRange3 = [null, [
-      ['o', EMPTY_SET],
-    ]];
-    expect(getEntityRanges(text, charMeta)).toEqual(
-      [entityRange1, entityRange2, entityRange3]
-    );
+    let entityRange1 = [null, [['h', EMPTY_SET.add(BOLD)]]];
+    let entityRange2 = [
+      entKey,
+      [['el', EMPTY_SET.add(BOLD)], ['l', EMPTY_SET]],
+    ];
+    let entityRange3 = [null, [['o', EMPTY_SET]]];
+    expect(getEntityRanges(text, charMeta)).toEqual([
+      entityRange1,
+      entityRange2,
+      entityRange3,
+    ]);
   });
 });

@@ -16,18 +16,20 @@ import {
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
-const assign = Object.assign || function(obj) {
-  var i = 1;
-  for (; i < arguments.length; i++) {
-    var target = arguments[i];
-    for (var key in target) {
-      if (hasOwnProperty.call(target, key)) {
-        obj[key] = target[key];
+const assign =
+  Object.assign ||
+  function(obj) {
+    var i = 1;
+    for (; i < arguments.length; i++) {
+      var target = arguments[i];
+      for (var key in target) {
+        if (hasOwnProperty.call(target, key)) {
+          obj[key] = target[key];
+        }
       }
     }
-  }
-  return obj;
-};
+    return obj;
+  };
 
 const noop = function() {};
 noop.exec = noop;
@@ -42,7 +44,6 @@ var defaults = {
   renderer: new Renderer(),
   xhtml: false,
 };
-
 
 /**
  * Block-Level Grammar
@@ -65,27 +66,22 @@ var block = {
 
 block.bullet = /(?:[*+-]|\d+\.)/;
 block.item = /^( *)(bull) [^\n]*(?:\n(?!\1bull )[^\n]*)*/;
-block.item = replace(block.item, 'gm')
-(/bull/g, block.bullet)
-();
+block.item = replace(block.item, 'gm')(/bull/g, block.bullet)();
 
-block.list = replace(block.list)
-(/bull/g, block.bullet)
-('hr', '\\n+(?=\\1?(?:[-*_] *){3,}(?:\\n+|$))')
-('def', '\\n+(?=' + block.def.source + ')')
-();
+block.list = replace(block.list)(/bull/g, block.bullet)(
+  'hr',
+  '\\n+(?=\\1?(?:[-*_] *){3,}(?:\\n+|$))',
+)('def', '\\n+(?=' + block.def.source + ')')();
 
-block.blockquote = replace(block.blockquote)
-('def', block.def)
-();
+block.blockquote = replace(block.blockquote)('def', block.def)();
 
-block.paragraph = replace(block.paragraph)
-('hr', block.hr)
-('heading', block.heading)
-('lheading', block.lheading)
-('blockquote', block.blockquote)
-('def', block.def)
-();
+block.paragraph = replace(block.paragraph)('hr', block.hr)(
+  'heading',
+  block.heading,
+)('lheading', block.lheading)('blockquote', block.blockquote)(
+  'def',
+  block.def,
+)();
 
 /**
  * Normal Block Grammar
@@ -103,11 +99,14 @@ block.gfm = assign({}, block.normal, {
   heading: /^ *(#{1,6}) +([^\n]+?) *#* *(?:\n+|$)/,
 });
 
-block.gfm.paragraph = replace(block.paragraph)
-('(?!', '(?!'
-    + block.gfm.fences.source.replace('\\1', '\\2') + '|'
-    + block.list.source.replace('\\1', '\\3') + '|')
-();
+block.gfm.paragraph = replace(block.paragraph)(
+  '(?!',
+  '(?!' +
+    block.gfm.fences.source.replace('\\1', '\\2') +
+    '|' +
+    block.list.source.replace('\\1', '\\3') +
+    '|',
+)();
 
 /**
  * Block Lexer
@@ -331,7 +330,7 @@ Lexer.prototype.token = function(src, top, bq) {
     }
 
     // def
-    if ((!bq && top) && (cap = this.rules.def.exec(src))) {
+    if (!bq && top && (cap = this.rules.def.exec(src))) {
       src = src.substring(cap[0].length);
       this.tokens.links[cap[1].toLowerCase()] = {
         href: cap[2],
@@ -345,9 +344,10 @@ Lexer.prototype.token = function(src, top, bq) {
       src = src.substring(cap[0].length);
       this.tokens.push({
         type: 'paragraph',
-        text: cap[1].charAt(cap[1].length - 1) === '\n'
-          ? cap[1].slice(0, -1)
-          : cap[1],
+        text:
+          cap[1].charAt(cap[1].length - 1) === '\n'
+            ? cap[1].slice(0, -1)
+            : cap[1],
       });
       continue;
     }
@@ -364,8 +364,7 @@ Lexer.prototype.token = function(src, top, bq) {
     }
 
     if (src) {
-      throw new
-      Error('Infinite loop on byte: ' + src.charCodeAt(0));
+      throw new Error('Infinite loop on byte: ' + src.charCodeAt(0));
     }
   }
 
@@ -393,14 +392,12 @@ var inline = {
 inline._inside = /(?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*/;
 inline._href = /\s*<?([\s\S]*?)>?(?:\s+['"]([\s\S]*?)['"])?\s*/;
 
-inline.link = replace(inline.link)
-('inside', inline._inside)
-('href', inline._href)
-();
+inline.link = replace(inline.link)('inside', inline._inside)(
+  'href',
+  inline._href,
+)();
 
-inline.reflink = replace(inline.reflink)
-('inside', inline._inside)
-();
+inline.reflink = replace(inline.reflink)('inside', inline._inside)();
 
 /**
  * Normal Inline Grammar
@@ -449,8 +446,7 @@ function InlineLexer(links, options) {
   this.renderer.options = this.options;
 
   if (!this.links) {
-    throw new
-    Error('Tokens array requires a `links` property.');
+    throw new Error('Tokens array requires a `links` property.');
   }
 
   if (this.options.gfm) {
@@ -506,8 +502,10 @@ InlineLexer.prototype.parse = function(src) {
     }
 
     // reflink, nolink
-    if ((cap = this.rules.reflink.exec(src))
-        || (cap = this.rules.nolink.exec(src))) {
+    if (
+      (cap = this.rules.reflink.exec(src)) ||
+      (cap = this.rules.nolink.exec(src))
+    ) {
       src = src.substring(cap[0].length);
       link = (cap[2] || cap[1]).replace(/\s+/g, ' ');
       link = this.links[link.toLowerCase()];
@@ -572,8 +570,7 @@ InlineLexer.prototype.parse = function(src) {
     }
 
     if (src) {
-      throw new
-      Error('Infinite loop on byte: ' + src.charCodeAt(0));
+      throw new Error('Infinite loop on byte: ' + src.charCodeAt(0));
     }
   }
 
@@ -660,9 +657,7 @@ Renderer.prototype.ins = function(childNode) {
 };
 
 Renderer.prototype.link = function(href, title, childNode) {
-  var attributes = [
-    {name: 'href', value: href},
-  ];
+  var attributes = [{name: 'href', value: href}];
   if (title) {
     attributes.push({name: 'title', value: title});
   }
@@ -670,9 +665,7 @@ Renderer.prototype.link = function(href, title, childNode) {
 };
 
 Renderer.prototype.image = function(href, title, alt) {
-  var attributes = [
-    {name: 'src', value: href},
-  ];
+  var attributes = [{name: 'src', value: href}];
   if (title) {
     attributes.push({name: 'title', value: title});
   }
@@ -769,14 +762,11 @@ Parser.prototype.tok = function() {
     case 'heading': {
       return this.renderer.heading(
         this.inline.parse(this.token.text),
-        this.token.depth
+        this.token.depth,
       );
     }
     case 'code': {
-      return this.renderer.code(
-        this.token.text,
-        this.token.lang
-      );
+      return this.renderer.code(this.token.text, this.token.lang);
     }
     case 'blockquote_start': {
       let body = new FragmentNode();
@@ -801,9 +791,9 @@ Parser.prototype.tok = function() {
       let body = new FragmentNode();
 
       while (this.next().type !== 'list_item_end') {
-        body.appendChild(this.token.type === 'text'
-          ? this.parseText()
-          : this.tok());
+        body.appendChild(
+          this.token.type === 'text' ? this.parseText() : this.tok(),
+        );
       }
 
       return this.renderer.listitem(body);

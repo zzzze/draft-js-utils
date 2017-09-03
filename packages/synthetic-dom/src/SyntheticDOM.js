@@ -1,8 +1,8 @@
 // @flow
 
-type Attr = {name: string; value: string};
+type Attr = { name: string; value: string };
 type AttrList = Array<Attr>;
-type MapList = {[key: string]: boolean};
+type MapList = { [key: string]: boolean };
 
 const EMPTY_ATTR_LIST: AttrList = [];
 
@@ -10,9 +10,21 @@ export const NODE_TYPE_ELEMENT = 1;
 export const NODE_TYPE_TEXT = 3;
 export const NODE_TYPE_FRAGMENT = 11;
 export const SELF_CLOSING: MapList = {
-  area: true, base: true, br: true, col: true, embed: true, hr: true, img: true,
-  input: true, keygen: true, link: true, meta: true, param: true, source: true,
-  track: true, wbr: true,
+  area: true,
+  base: true,
+  br: true,
+  col: true,
+  embed: true,
+  hr: true,
+  img: true,
+  input: true,
+  keygen: true,
+  link: true,
+  meta: true,
+  param: true,
+  source: true,
+  track: true,
+  wbr: true,
 };
 
 export class Node {
@@ -45,7 +57,7 @@ export class ElementNode extends Node {
     if (attributes == null) {
       attributes = EMPTY_ATTR_LIST;
     }
-    let isSelfClosing = (SELF_CLOSING[name] === true);
+    let isSelfClosing = SELF_CLOSING[name] === true;
     this.nodeType = NODE_TYPE_ELEMENT;
     this.nodeName = name;
     this.attributes = attributes;
@@ -85,8 +97,19 @@ export class ElementNode extends Node {
     if (this.isSelfClosing) {
       return '<' + this.nodeName + attrString + (isXHTML ? '/>' : '>');
     }
-    let childNodes = this.childNodes.map((node) => node.toString(isXHTML)).join('');
-    return '<' + this.nodeName + attrString + '>' + childNodes + '</' + this.nodeName + '>';
+    let childNodes = this.childNodes
+      .map((node) => node.toString(isXHTML))
+      .join('');
+    return (
+      '<' +
+      this.nodeName +
+      attrString +
+      '>' +
+      childNodes +
+      '</' +
+      this.nodeName +
+      '>'
+    );
   }
 }
 

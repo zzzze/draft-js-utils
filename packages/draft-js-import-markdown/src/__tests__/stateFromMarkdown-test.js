@@ -10,9 +10,16 @@ describe('stateFromMarkdown', () => {
     let contentState = stateFromMarkdown(markdown);
     let rawContentState = convertToRaw(contentState);
     let blocks = removeKeys(rawContentState.blocks);
-    expect(blocks).toEqual(
-      [{text: 'Hello World', type: 'unstyled', data: {}, depth: 0, inlineStyleRanges: [], entityRanges: []}]
-    );
+    expect(blocks).toEqual([
+      {
+        text: 'Hello World',
+        type: 'unstyled',
+        data: {},
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+      },
+    ]);
   });
 });
 

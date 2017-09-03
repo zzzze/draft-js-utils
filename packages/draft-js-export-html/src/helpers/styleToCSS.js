@@ -1,6 +1,6 @@
 // @flow
 
-type StyleDescr = {[key: string]: number | string};
+type StyleDescr = { [key: string]: number | string };
 
 const VENDOR_PREFIX = /^(moz|ms|o|webkit)-/;
 const NUMERIC_STRING = /^\d+$/;
@@ -52,8 +52,6 @@ const isUnitlessNumber = {
   strokeWidth: true,
 };
 
-
-
 // Lifted from: https://github.com/facebook/react/blob/master/src/renderers/dom/shared/CSSPropertyOperations.js
 function processStyleName(name: string): string {
   return name
@@ -79,11 +77,13 @@ function processStyleValue(name: string, value: number | string): string {
 }
 
 function styleToCSS(styleDescr: StyleDescr): string {
-  return Object.keys(styleDescr).map((name) => {
-    let styleValue = processStyleValue(name, styleDescr[name]);
-    let styleName = processStyleName(name);
-    return `${styleName}: ${styleValue}`;
-  }).join('; ');
+  return Object.keys(styleDescr)
+    .map((name) => {
+      let styleValue = processStyleValue(name, styleDescr[name]);
+      let styleName = processStyleName(name);
+      return `${styleName}: ${styleValue}`;
+    })
+    .join('; ');
 }
 
 export default styleToCSS;

@@ -19,7 +19,10 @@ describe('combineOrderedStyles', () => {
     let defaultStyleMap = {foo: {}, bar: {}};
     let defaultStyleOrder = ['foo', 'bar'];
     let customStyleMap = {};
-    let [styleMap, styleOrder] = combineOrderedStyles(customStyleMap, [defaultStyleMap, defaultStyleOrder]);
+    let [styleMap, styleOrder] = combineOrderedStyles(customStyleMap, [
+      defaultStyleMap,
+      defaultStyleOrder,
+    ]);
     expect(styleMap).toEqual({foo: {}, bar: {}});
     expect(styleMap).toNotBe(defaultStyleMap);
     expect(styleOrder).toEqual(['foo', 'bar']);
@@ -30,7 +33,10 @@ describe('combineOrderedStyles', () => {
     let defaultStyleMap = {foo: {}, bar: {}};
     let defaultStyleOrder = ['foo', 'bar'];
     let customStyleMap = {baz: {}};
-    let [styleMap, styleOrder] = combineOrderedStyles(customStyleMap, [defaultStyleMap, defaultStyleOrder]);
+    let [styleMap, styleOrder] = combineOrderedStyles(customStyleMap, [
+      defaultStyleMap,
+      defaultStyleOrder,
+    ]);
     expect(styleMap).toEqual({foo: {}, bar: {}, baz: {}});
     expect(styleMap).toNotBe(defaultStyleMap);
     expect(styleMap).toNotBe(customStyleMap);
@@ -48,7 +54,10 @@ describe('combineOrderedStyles', () => {
       BOLD: {element: 'span', style: {fontWeight: 'bold'}},
       ITALIC: {style: {textDecoration: 'underline'}},
     };
-    let [styleMap, styleOrder] = combineOrderedStyles(customStyleMap, [defaultStyleMap, defaultStyleOrder]);
+    let [styleMap, styleOrder] = combineOrderedStyles(customStyleMap, [
+      defaultStyleMap,
+      defaultStyleOrder,
+    ]);
     expect(styleMap).toEqual({
       BOLD: {element: 'span', style: {fontWeight: 'bold'}},
       ITALIC: {element: 'em', style: {textDecoration: 'underline'}},

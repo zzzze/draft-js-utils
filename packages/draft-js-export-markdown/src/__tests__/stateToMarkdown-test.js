@@ -14,13 +14,17 @@ let testCasesRaw = fs.readFileSync(
   'utf8',
 );
 
-let testCases = testCasesRaw.slice(2).trim().split(SEP).map((text) => {
-  let lines = text.split('\n');
-  let description = lines.shift().trim();
-  let state = JSON.parse(lines[0]);
-  let markdown = lines.slice(1).join('\n');
-  return {description, state, markdown};
-});
+let testCases = testCasesRaw
+  .slice(2)
+  .trim()
+  .split(SEP)
+  .map((text) => {
+    let lines = text.split('\n');
+    let description = lines.shift().trim();
+    let state = JSON.parse(lines[0]);
+    let markdown = lines.slice(1).join('\n');
+    return {description, state, markdown};
+  });
 
 describe('stateToMarkdown', () => {
   testCases.forEach((testCase) => {

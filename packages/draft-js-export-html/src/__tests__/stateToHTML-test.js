@@ -20,22 +20,30 @@ let testCasesCustomRaw = fs.readFileSync(
   'utf8',
 );
 
-let testCases = testCasesRaw.slice(1).trim().split(SEP).map((text) => {
-  let lines = text.split('\n');
-  let description = lines.shift().trim();
-  let state = JSON.parse(lines.shift());
-  let html = lines.join('\n');
-  return {description, state, html};
-});
+let testCases = testCasesRaw
+  .slice(1)
+  .trim()
+  .split(SEP)
+  .map((text) => {
+    let lines = text.split('\n');
+    let description = lines.shift().trim();
+    let state = JSON.parse(lines.shift());
+    let html = lines.join('\n');
+    return {description, state, html};
+  });
 
-let testCasesCustom = testCasesCustomRaw.slice(1).trim().split(SEP).map((text) => {
-  let lines = text.split('\n');
-  let description = lines.shift().trim();
-  let options = JSON.parse(lines.shift());
-  let state = JSON.parse(lines.shift());
-  let html = lines.join('\n');
-  return {description, options, state, html};
-});
+let testCasesCustom = testCasesCustomRaw
+  .slice(1)
+  .trim()
+  .split(SEP)
+  .map((text) => {
+    let lines = text.split('\n');
+    let description = lines.shift().trim();
+    let options = JSON.parse(lines.shift());
+    let state = JSON.parse(lines.shift());
+    let html = lines.join('\n');
+    return {description, options, state, html};
+  });
 
 describe('stateToHTML', () => {
   testCases.forEach((testCase) => {
@@ -64,17 +72,41 @@ describe('stateToHTML', () => {
     };
     let contentState = convertFromRaw(
       // <pre><code>Hello <em>world</em>.</code></pre>
-      {"entityMap":{},"blocks":[{"key":"dn025","text":"Hello world.","type":"code-block","depth":0,"inlineStyleRanges":[{"offset":6,"length":5,"style":"ITALIC"}],"entityRanges":[]}]} // eslint-disable-line
+      {
+        entityMap: {},
+        blocks: [
+          {
+            key: 'dn025',
+            text: 'Hello world.',
+            type: 'code-block',
+            depth: 0,
+            inlineStyleRanges: [{offset: 6, length: 5, style: 'ITALIC'}],
+            entityRanges: [],
+          },
+        ],
+      }, // eslint-disable-line
     );
     expect(stateToHTML(contentState, options)).toBe(
-      '<div class="code">Hello world.</div>'
+      '<div class="code">Hello world.</div>',
     );
     let contentState2 = convertFromRaw(
       // <h1>Hello <em>world</em>.</h1>
-      {"entityMap":{},"blocks":[{"key":"dn025","text":"Hello world.","type":"header-one","depth":0,"inlineStyleRanges":[{"offset":6,"length":5,"style":"ITALIC"}],"entityRanges":[]}]} // eslint-disable-line
+      {
+        entityMap: {},
+        blocks: [
+          {
+            key: 'dn025',
+            text: 'Hello world.',
+            type: 'header-one',
+            depth: 0,
+            inlineStyleRanges: [{offset: 6, length: 5, style: 'ITALIC'}],
+            entityRanges: [],
+          },
+        ],
+      }, // eslint-disable-line
     );
     expect(stateToHTML(contentState2, options)).toBe(
-      '<h1>Hello <em>world</em>.</h1>'
+      '<h1>Hello <em>world</em>.</h1>',
     );
   });
 
@@ -93,21 +125,46 @@ describe('stateToHTML', () => {
     };
     let contentState1 = convertFromRaw(
       // <h1 style="text-align: left;">Hello <em>world</em>.</h1>
-      {"entityMap":{},"blocks":[{"data":{"alignment":"left"},"key":"dn025","text":"Hello world.","type":"header-one","depth":0,"inlineStyleRanges":[{"offset":6,"length":5,"style":"ITALIC"}],"entityRanges":[]}]} // eslint-disable-line
+      {
+        entityMap: {},
+        blocks: [
+          {
+            data: {alignment: 'left'},
+            key: 'dn025',
+            text: 'Hello world.',
+            type: 'header-one',
+            depth: 0,
+            inlineStyleRanges: [{offset: 6, length: 5, style: 'ITALIC'}],
+            entityRanges: [],
+          },
+        ],
+      }, // eslint-disable-line
     );
     if (contentState1.getFirstBlock().getData == null) {
       // Older DraftJS does not support block.getData()
       return;
     }
     expect(stateToHTML(contentState1, options)).toBe(
-      '<h1 style="text-align: left">Hello <em>world</em>.</h1>'
+      '<h1 style="text-align: left">Hello <em>world</em>.</h1>',
     );
     let contentState2 = convertFromRaw(
       // <h1>Hello <em>world</em>.</h1>
-      {"entityMap":{},"blocks":[{"key":"dn025","text":"Hello world.","type":"header-one","depth":0,"inlineStyleRanges":[{"offset":6,"length":5,"style":"ITALIC"}],"entityRanges":[]}]} // eslint-disable-line
+      {
+        entityMap: {},
+        blocks: [
+          {
+            key: 'dn025',
+            text: 'Hello world.',
+            type: 'header-one',
+            depth: 0,
+            inlineStyleRanges: [{offset: 6, length: 5, style: 'ITALIC'}],
+            entityRanges: [],
+          },
+        ],
+      }, // eslint-disable-line
     );
     expect(stateToHTML(contentState2, options)).toBe(
-      '<h1>Hello <em>world</em>.</h1>'
+      '<h1>Hello <em>world</em>.</h1>',
     );
   });
 
@@ -128,14 +185,32 @@ describe('stateToHTML', () => {
     };
     let contentState1 = convertFromRaw(
       // <p><em>a</em></p>
-      {"entityMap":{"0":{"type":"MENTION","mutability":"MUTABLE","data":{"userId":"mikaelwaltersson"}}},"blocks":[{"key":"8r91j","text":"a","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":1,"style":"ITALIC"}],"entityRanges":[{"offset":0,"length":1,"key":0}]}]} // eslint-disable-line
+      {
+        entityMap: {
+          [0]: {
+            type: 'MENTION',
+            mutability: 'MUTABLE',
+            data: {userId: 'mikaelwaltersson'},
+          },
+        },
+        blocks: [
+          {
+            key: '8r91j',
+            text: 'a',
+            type: 'unstyled',
+            depth: 0,
+            inlineStyleRanges: [{offset: 0, length: 1, style: 'ITALIC'}],
+            entityRanges: [{offset: 0, length: 1, key: 0}],
+          },
+        ],
+      }, // eslint-disable-line
     );
     if (contentState1.getFirstBlock().getData == null) {
       // Older DraftJS does not support block.getData()
       return;
     }
     expect(stateToHTML(contentState1, options)).toBe(
-      '<p><a href="/users/mikaelwaltersson" class="mention"><em>a</em></a></p>'
+      '<p><a href="/users/mikaelwaltersson" class="mention"><em>a</em></a></p>',
     );
   });
 });
