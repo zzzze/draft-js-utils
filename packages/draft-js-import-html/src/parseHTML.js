@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 export default function parseHTML(html: string): Element {
   let doc;

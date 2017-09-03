@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import combineOrderedStyles from './helpers/combineOrderedStyles';
 import normalizeAttributes from './helpers/normalizeAttributes';

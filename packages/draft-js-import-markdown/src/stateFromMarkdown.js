@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import MarkdownParser from './MarkdownParser';
 import {stateFromElement} from 'draft-js-import-element';

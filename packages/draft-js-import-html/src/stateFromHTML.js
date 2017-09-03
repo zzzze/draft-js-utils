@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import {stateFromElement} from 'draft-js-import-element';
 import parseHTML from './parseHTML';

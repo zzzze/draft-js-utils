@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 const {describe, it, xit} = global;
 import expect from 'expect';
 import {INLINE_STYLE} from '../Constants';

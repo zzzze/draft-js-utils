@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 const {describe, it, beforeEach} = global;
 import expect from 'expect';
 import callModifierForSelectedBlocks from '../callModifierForSelectedBlocks';

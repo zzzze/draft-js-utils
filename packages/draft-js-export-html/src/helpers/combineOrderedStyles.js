@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 type Attributes = {[key: string]: string};
 type StyleDescr = {[key: string]: number | string};

@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 let {describe, it} = global;
 

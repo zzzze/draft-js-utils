@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 import {OrderedSet, is} from 'immutable';
 
 import type {CharacterMetadata} from 'draft-js';

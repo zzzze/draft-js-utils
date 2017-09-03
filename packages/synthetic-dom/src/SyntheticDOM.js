@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 type Attr = {name: string; value: string};
 type AttrList = Array<Attr>;

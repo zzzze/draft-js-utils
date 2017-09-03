@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 const {describe, it} = global;
 import expect from 'expect';
 import replaceTextWithMeta from '../replaceTextWithMeta';
