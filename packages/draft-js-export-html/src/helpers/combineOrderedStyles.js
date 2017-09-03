@@ -1,13 +1,13 @@
 // @flow
 
-type Attributes = { [key: string]: string };
-type StyleDescr = { [key: string]: number | string };
+type Attributes = {[key: string]: string};
+type StyleDescr = {[key: string]: number | string};
 type RenderConfig = {
   element?: string;
   attributes?: Attributes;
   style?: StyleDescr;
 };
-type StyleMap = { [styleName: string]: RenderConfig };
+type StyleMap = {[styleName: string]: RenderConfig};
 type StyleOrder = Array<string>;
 type OrderedStyleMap = [StyleMap, StyleOrder];
 

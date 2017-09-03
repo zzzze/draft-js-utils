@@ -1,8 +1,8 @@
 // @flow
 
-type Attr = { name: string; value: string };
+type Attr = {name: string; value: string};
 type AttrList = Array<Attr>;
-type MapList = { [key: string]: boolean };
+type MapList = {[key: string]: boolean};
 
 const EMPTY_ATTR_LIST: AttrList = [];
 

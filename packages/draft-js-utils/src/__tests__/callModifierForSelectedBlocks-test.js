@@ -200,9 +200,7 @@ describe('callModifierForSelectedBlocks', () => {
     ];
 
     selections.forEach((selection, index) => {
-      const {anchorKey, focusKey, anchorOffset, focusOffset} = expected[
-        index
-      ];
+      const {anchorKey, focusKey, anchorOffset, focusOffset} = expected[index];
 
       expect(anchorKey).toBe(selection.getStartKey());
       expect(focusKey).toBe(selection.getEndKey());

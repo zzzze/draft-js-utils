@@ -8,7 +8,7 @@ import type {ElementStyles, CustomBlockFn} from 'draft-js-import-element';
 
 type Options = {
   elementStyles?: ElementStyles;
-  blockTypes?: { [key: string]: string };
+  blockTypes?: {[key: string]: string};
   customBlockFn?: CustomBlockFn;
 };
 

@@ -19,9 +19,9 @@ import type {
 } from 'draft-js';
 import type {CharacterMetaList} from 'draft-js-utils';
 
-type AttrMap = { [key: string]: string };
-type Attributes = { [key: string]: string };
-type StyleDescr = { [key: string]: number | string };
+type AttrMap = {[key: string]: string};
+type Attributes = {[key: string]: string};
+type StyleDescr = {[key: string]: number | string};
 
 type RenderConfig = {
   element?: string;
@@ -30,9 +30,9 @@ type RenderConfig = {
 };
 
 type BlockRenderer = (block: ContentBlock) => ?string;
-type BlockRendererMap = { [blockType: string]: BlockRenderer };
+type BlockRendererMap = {[blockType: string]: BlockRenderer};
 
-type StyleMap = { [styleName: string]: RenderConfig };
+type StyleMap = {[styleName: string]: RenderConfig};
 
 type BlockStyleFn = (block: ContentBlock) => ?RenderConfig;
 type EntityStyleFn = (entity: Entity) => ?RenderConfig;
@@ -64,7 +64,7 @@ const DEFAULT_STYLE_MAP = {
 const DEFAULT_STYLE_ORDER = [BOLD, ITALIC, UNDERLINE, STRIKETHROUGH, CODE];
 
 // Map entity data to element attributes.
-const ENTITY_ATTR_MAP: { [entityType: string]: AttrMap } = {
+const ENTITY_ATTR_MAP: {[entityType: string]: AttrMap} = {
   [ENTITY_TYPE.LINK]: {
     url: 'href',
     href: 'href',
@@ -352,9 +352,7 @@ class MarkupGenerator {
                 continue;
               }
               if (styleSet.has(styleName)) {
-                let {element, attributes, style} = this.inlineStyles[
-                  styleName
-                ];
+                let {element, attributes, style} = this.inlineStyles[styleName];
                 if (element == null) {
                   element = 'span';
                 }

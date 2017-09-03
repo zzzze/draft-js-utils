@@ -1,6 +1,6 @@
 // @flow
 
-type StyleDescr = { [key: string]: number | string };
+type StyleDescr = {[key: string]: number | string};
 
 const VENDOR_PREFIX = /^(moz|ms|o|webkit)-/;
 const NUMERIC_STRING = /^\d+$/;

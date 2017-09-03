@@ -9,7 +9,7 @@ import type {ElementStyles, CustomBlockFn} from 'draft-js-import-element';
 type Options = {
   parser?: (html: string) => Element;
   elementStyles?: ElementStyles;
-  blockTypes?: { [key: string]: string };
+  blockTypes?: {[key: string]: string};
   customBlockFn?: CustomBlockFn;
 };
 

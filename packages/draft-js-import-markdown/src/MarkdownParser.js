@@ -7,12 +7,7 @@
  */
 /* eslint-disable no-spaced-func */
 
-import {
-  TextNode,
-  ElementNode,
-  FragmentNode,
-  SELF_CLOSING,
-} from 'synthetic-dom';
+import {TextNode, ElementNode, FragmentNode, SELF_CLOSING} from 'synthetic-dom';
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 
