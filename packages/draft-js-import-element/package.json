@@ -30,5 +30,9 @@
       "url": "https://github.com/sstur"
     }
   ],
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sstur/draft-js-utils/issues"
+  },
+  "homepage": "https://github.com/sstur/draft-js-utils/blob/master/packages/draft-js-import-element/README.md"
 }

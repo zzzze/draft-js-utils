@@ -22,5 +22,9 @@
     "export-html"
   ],
   "author": "sstur@me.com",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sstur/draft-js-utils/issues"
+  },
+  "homepage": "https://github.com/sstur/draft-js-utils/blob/master/packages/draft-js-export-html/README.md"
 }
