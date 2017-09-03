@@ -1,0 +1,7 @@
+_*
+!__tests__
+/packages/*/dist
+/node_modules
+/packages/*/node_modules
+*.log
+.DS_Store
