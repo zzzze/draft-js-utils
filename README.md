@@ -63,6 +63,19 @@ let options = {
 let html = stateToHTML(contentState, options);
 ```
 
+### `defaultBlockTag`
+
+If you don't want to define the full custom render for a block, you can define the type of the parent block tag that will be created if the block type doesn't match any known type.
+
+Example:
+
+```javascript
+let options = {
+  defaultBlockTag: 'div',
+};
+let html = stateToHTML(contentState, options);
+```
+
 ### `blockStyleFn`
 
 You can define custom styles and attributes for your block, utilizing the underlying built-in rendering logic of the tags, but adding your own attributes or styles on top. The `blockStyleFn` option takes a block and returns an Object similar to `inlineStyles` of the following signature or null:
@@ -87,19 +100,6 @@ let options = {
     }
   }
 }
-let html = stateToHTML(contentState, options);
-```
-
-### `defaultBlockTag`
-
-If you don't want to define the full custom render for a block, you can define the type of the parent block tag that will be created if the block type doesn't match any known type.
-
-Example:
-
-```javascript
-let options = {
-  defaultBlockTag: 'div',
-};
 let html = stateToHTML(contentState, options);
 ```
 
