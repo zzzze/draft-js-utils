@@ -6,7 +6,7 @@
   "typings": "typings/index.d.ts",
   "scripts": {},
   "dependencies": {
-    "draft-js-utils": ">=0.2.0"
+    "draft-js-utils": "^1.0.0"
   },
   "peerDependencies": {
     "draft-js": ">=0.10.0",
