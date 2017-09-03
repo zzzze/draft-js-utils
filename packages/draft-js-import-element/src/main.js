@@ -1,1 +1,2 @@
-export {default as stateFromElement} from './stateFromElement';
+// @flow
+export * from './stateFromElement';

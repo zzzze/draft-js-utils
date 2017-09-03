@@ -47,12 +47,14 @@ type ParsedBlock = {
   data: ?BlockData;
 };
 
-type ElementStyles = {[tagName: string]: Style};
+export type ElementStyles = {[tagName: string]: Style};
+
+export type CustomBlockFn = (element: DOMElement) => ?{type?: string, data?: BlockData};
 
 type Options = {
   elementStyles?: ElementStyles;
   blockTypes?: {[key: string]: string};
-  customBlockFn?: (element: DOMElement) => ?{type?: string, data?: BlockData};
+  customBlockFn?: CustomBlockFn;
 };
 
 const NO_STYLE = OrderedSet();
@@ -472,6 +474,8 @@ function addStyleFromTagName(styleSet: StyleSet, tagName: string, elementStyles?
   }
 }
 
-export default function stateFromElement(element: DOMElement, options?: Options): ContentState {
+export function stateFromElement(element: DOMElement, options?: Options): ContentState {
   return new ContentGenerator(options).process(element);
 }
+
+export default stateFromElement;

@@ -1,3 +1,5 @@
+// @flow
+
 export const BLOCK_TYPE = {
   // This is used to represent a normal text block (paragraph).
   UNSTYLED: 'unstyled',
