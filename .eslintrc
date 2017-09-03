@@ -2,7 +2,7 @@
   "parser": "babel-eslint",
   "plugins": [
     "babel",
-    "flow-vars",
+    "flowtype",
     "react"
   ],
   "env": {
