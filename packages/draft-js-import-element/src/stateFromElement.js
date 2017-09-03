@@ -466,12 +466,14 @@ function addStyleFromTagName(
     case 'em': {
       return styleSet.add(INLINE_STYLE.ITALIC);
     }
+    case 'u':
     case 'ins': {
       return styleSet.add(INLINE_STYLE.UNDERLINE);
     }
     case 'code': {
       return styleSet.add(INLINE_STYLE.CODE);
     }
+    case 's':
     case 'del': {
       return styleSet.add(INLINE_STYLE.STRIKETHROUGH);
     }

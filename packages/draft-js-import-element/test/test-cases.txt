@@ -22,6 +22,22 @@
 {"entityMap":{},"blocks":[{"key":"99n0j","text":"asdf","type":"unstyled","data":{},"depth":0,"inlineStyleRanges":[{"offset":3,"length":1,"style":"BOLD"}],"entityRanges":[]}]}
 <p>asd<strong>f</strong></p>
 
+# Underline using <ins>
+{"entityMap":{},"blocks":[{"key":"99n0j","text":"asdf","type":"unstyled","data":{},"depth":0,"inlineStyleRanges":[{"offset":3,"length":1,"style":"UNDERLINE"}],"entityRanges":[]}]}
+<p>asd<ins>f</ins></p>
+
+# Underline using <u>
+{"entityMap":{},"blocks":[{"key":"99n0j","text":"asdf","type":"unstyled","data":{},"depth":0,"inlineStyleRanges":[{"offset":3,"length":1,"style":"UNDERLINE"}],"entityRanges":[]}]}
+<p>asd<u>f</u></p>
+
+# Strikethrough using <del>
+{"entityMap":{},"blocks":[{"key":"99n0j","text":"asdf","type":"unstyled","data":{},"depth":0,"inlineStyleRanges":[{"offset":3,"length":1,"style":"STRIKETHROUGH"}],"entityRanges":[]}]}
+<p>asd<del>f</del></p>
+
+# Strikethrough using <s>
+{"entityMap":{},"blocks":[{"key":"99n0j","text":"asdf","type":"unstyled","data":{},"depth":0,"inlineStyleRanges":[{"offset":3,"length":1,"style":"STRIKETHROUGH"}],"entityRanges":[]}]}
+<p>asd<s>f</s></p>
+
 # Nested inline styles
 {"entityMap":{},"blocks":[{"key":"9nc73","text":"BoldItalic","type":"unstyled","data":{},"depth":0,"inlineStyleRanges":[{"offset":0,"length":10,"style":"ITALIC"},{"offset":0,"length":10,"style":"BOLD"}],"entityRanges":[]}]}
 <p><em><strong>BoldItalic</strong></em></p>
