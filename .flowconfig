@@ -7,3 +7,10 @@
 [options]
 module.system=haste
 esproposal.class_static_fields=enable
+
+module.name_mapper='^draft-js-import-element$' -> '<PROJECT_ROOT>/packages/draft-js-import-element/src/main'
+module.name_mapper='^draft-js-utils$' -> '<PROJECT_ROOT>/packages/draft-js-utils/src/main'
+module.name_mapper='^synthetic-dom$' -> '<PROJECT_ROOT>/packages/synthetic-dom/src/main'
+
+suppress_type=$FlowIssue
+suppress_comment=\\(.\\|\n\\)*\\$FlowIssue
