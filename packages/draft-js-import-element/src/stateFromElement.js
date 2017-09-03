@@ -1,12 +1,7 @@
 // @flow
 
 import replaceTextWithMeta from './lib/replaceTextWithMeta';
-import {
-  CharacterMetadata,
-  ContentBlock,
-  ContentState,
-  genKey,
-} from 'draft-js';
+import {CharacterMetadata, ContentBlock, ContentState, genKey} from 'draft-js';
 import {List, Map, OrderedSet, Repeat, Seq} from 'immutable';
 import {BLOCK_TYPE, ENTITY_TYPE, INLINE_STYLE} from 'draft-js-utils';
 import {NODE_TYPE_ELEMENT, NODE_TYPE_TEXT} from 'synthetic-dom';
@@ -30,7 +25,7 @@ type TextFragment = {
   characterMeta: CharacterMetaSeq;
 };
 
-type BlockData = { [key: string]: mixed };
+type BlockData = {[key: string]: mixed};
 
 // A ParsedBlock has two purposes:
 //   1) to keep data about the block (textFragments, type)
@@ -47,15 +42,15 @@ type ParsedBlock = {
   data: ?BlockData;
 };
 
-export type ElementStyles = { [tagName: string]: Style };
+export type ElementStyles = {[tagName: string]: Style};
 
 export type CustomBlockFn = (
   element: DOMElement,
-) => ?{ type?: string; data?: BlockData };
+) => ?{type?: string; data?: BlockData};
 
 type Options = {
   elementStyles?: ElementStyles;
-  blockTypes?: { [key: string]: string };
+  blockTypes?: {[key: string]: string};
   customBlockFn?: CustomBlockFn;
 };
 
