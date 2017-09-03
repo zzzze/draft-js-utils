@@ -15,7 +15,9 @@
   "globals": {
     "Map": false,
     "Set": false,
-    "Promise": false
+    "Promise": false,
+    "document": false,
+    "DOMParser": false
   },
   "rules": {
     // flowtype rules
