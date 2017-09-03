@@ -31,6 +31,7 @@
     }
   ],
   "license": "ISC",
+  "repository": "https://github.com/sstur/draft-js-utils/tree/master/packages/draft-js-import-element",
   "bugs": {
     "url": "https://github.com/sstur/draft-js-utils/issues"
   },

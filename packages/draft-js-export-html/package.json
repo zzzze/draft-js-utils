@@ -23,6 +23,7 @@
   ],
   "author": "sstur@me.com",
   "license": "ISC",
+  "repository": "https://github.com/sstur/draft-js-utils/tree/master/packages/draft-js-export-html",
   "bugs": {
     "url": "https://github.com/sstur/draft-js-utils/issues"
   },
