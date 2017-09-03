@@ -2,7 +2,7 @@
   "name": "synthetic-dom",
   "version": "1.0.0",
   "description": "Synthetic HTML DOM for use with parsing within React-RTE",
-  "main": "lib/SyntheticDOM.js",
+  "main": "lib/main.js",
   "scripts": {},
   "dependencies": {},
   "devDependencies": {},
