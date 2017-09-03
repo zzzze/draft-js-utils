@@ -251,11 +251,19 @@ class ContentGenerator {
         data = customBlock.data;
       }
     }
+    let isCustomType = true;
     if (type == null) {
+      isCustomType = false;
       type = this.getBlockTypeFromTagName(tagName);
     }
     let hasDepth = canHaveDepth(type);
     let allowRender = !SPECIAL_ELEMENTS.hasOwnProperty(tagName);
+    if (!isCustomType && !hasSemanticMeaning(type)) {
+      let parent = this.blockStack.slice(-1)[0];
+      if (parent) {
+        type = parent.type;
+      }
+    }
     let block: ParsedBlock = {
       tagName: tagName,
       textFragments: [],
@@ -476,6 +484,10 @@ function addStyleFromTagName(
       return styleSet;
     }
   }
+}
+
+function hasSemanticMeaning(blockType: string) {
+  return blockType !== BLOCK_TYPE.UNSTYLED;
 }
 
 export function stateFromElement(
