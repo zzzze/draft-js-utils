@@ -66,26 +66,26 @@ var block = {
 block.bullet = /(?:[*+-]|\d+\.)/;
 block.item = /^( *)(bull) [^\n]*(?:\n(?!\1bull )[^\n]*)*/;
 block.item = replace(block.item, 'gm')
-  (/bull/g, block.bullet)
-  ();
+(/bull/g, block.bullet)
+();
 
 block.list = replace(block.list)
-  (/bull/g, block.bullet)
-  ('hr', '\\n+(?=\\1?(?:[-*_] *){3,}(?:\\n+|$))')
-  ('def', '\\n+(?=' + block.def.source + ')')
-  ();
+(/bull/g, block.bullet)
+('hr', '\\n+(?=\\1?(?:[-*_] *){3,}(?:\\n+|$))')
+('def', '\\n+(?=' + block.def.source + ')')
+();
 
 block.blockquote = replace(block.blockquote)
-  ('def', block.def)
-  ();
+('def', block.def)
+();
 
 block.paragraph = replace(block.paragraph)
-  ('hr', block.hr)
-  ('heading', block.heading)
-  ('lheading', block.lheading)
-  ('blockquote', block.blockquote)
-  ('def', block.def)
-  ();
+('hr', block.hr)
+('heading', block.heading)
+('lheading', block.lheading)
+('blockquote', block.blockquote)
+('def', block.def)
+();
 
 /**
  * Normal Block Grammar
@@ -104,10 +104,10 @@ block.gfm = assign({}, block.normal, {
 });
 
 block.gfm.paragraph = replace(block.paragraph)
-  ('(?!', '(?!'
+('(?!', '(?!'
     + block.gfm.fences.source.replace('\\1', '\\2') + '|'
     + block.list.source.replace('\\1', '\\3') + '|')
-  ();
+();
 
 /**
  * Block Lexer
@@ -365,7 +365,7 @@ Lexer.prototype.token = function(src, top, bq) {
 
     if (src) {
       throw new
-        Error('Infinite loop on byte: ' + src.charCodeAt(0));
+      Error('Infinite loop on byte: ' + src.charCodeAt(0));
     }
   }
 
@@ -394,13 +394,13 @@ inline._inside = /(?:\[[^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*/;
 inline._href = /\s*<?([\s\S]*?)>?(?:\s+['"]([\s\S]*?)['"])?\s*/;
 
 inline.link = replace(inline.link)
-  ('inside', inline._inside)
-  ('href', inline._href)
-  ();
+('inside', inline._inside)
+('href', inline._href)
+();
 
 inline.reflink = replace(inline.reflink)
-  ('inside', inline._inside)
-  ();
+('inside', inline._inside)
+();
 
 /**
  * Normal Inline Grammar
@@ -450,7 +450,7 @@ function InlineLexer(links, options) {
 
   if (!this.links) {
     throw new
-      Error('Tokens array requires a `links` property.');
+    Error('Tokens array requires a `links` property.');
   }
 
   if (this.options.gfm) {
@@ -573,7 +573,7 @@ InlineLexer.prototype.parse = function(src) {
 
     if (src) {
       throw new
-        Error('Infinite loop on byte: ' + src.charCodeAt(0));
+      Error('Infinite loop on byte: ' + src.charCodeAt(0));
     }
   }
 
