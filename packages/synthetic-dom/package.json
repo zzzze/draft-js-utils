@@ -1,13 +1,11 @@
 {
   "name": "synthetic-dom",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Synthetic HTML DOM for use with parsing within React-RTE",
   "main": "lib/main.js",
   "scripts": {
     "build": "babel src --out-dir lib --ignore \"_*\""
   },
-  "dependencies": {},
-  "devDependencies": {},
   "keywords": [
     "synthetic-dom",
     "virtual-dom",

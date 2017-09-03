@@ -1,17 +1,15 @@
 {
   "name": "draft-js-utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Collection of utilities for DraftJS",
   "main": "lib/main.js",
   "scripts": {
     "build": "babel src --out-dir lib --ignore \"_*\""
   },
-  "dependencies": {},
   "peerDependencies": {
     "draft-js": ">=0.10.0",
     "immutable": "3.x.x"
   },
-  "devDependencies": {},
   "keywords": [
     "draft-js",
     "rich-text",

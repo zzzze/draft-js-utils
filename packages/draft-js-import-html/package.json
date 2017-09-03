@@ -1,19 +1,18 @@
 {
   "name": "draft-js-import-html",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "DraftJS: Import HTML to ContentState",
   "main": "lib/main.js",
   "scripts": {
     "build": "babel src --out-dir lib --ignore \"_*\""
   },
   "dependencies": {
-    "draft-js-import-element": "^1.0.0"
+    "draft-js-import-element": "^1.0.1"
   },
   "peerDependencies": {
     "draft-js": ">=0.10.0",
     "immutable": "3.x.x"
   },
-  "devDependencies": {},
   "keywords": [
     "draft-js",
     "import-html"
