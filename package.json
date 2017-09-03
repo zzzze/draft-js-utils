@@ -25,16 +25,15 @@
     "expect": "^1.20.1",
     "flow-bin": "^0.32.0",
     "jest": "^20.0.4",
-    "jsdom": "^9.8.0",
     "lerna": "^2.1.2",
     "react": "^15.1.0",
     "react-dom": "^15.1.0"
   },
-	"jest": {
-		"moduleNameMapper": {
-			"draft-js-import-element": "<rootDir>/packages/draft-js-import-element/src/main.js",
-			"draft-js-utils": "<rootDir>/packages/draft-js-utils/src/main.js",
-			"synthetic-dom": "<rootDir>/packages/synthetic-dom/src/main.js"
-		}
-	}
+  "jest": {
+    "moduleNameMapper": {
+      "draft-js-import-element": "<rootDir>/packages/draft-js-import-element/src/main.js",
+      "draft-js-utils": "<rootDir>/packages/draft-js-utils/src/main.js",
+      "synthetic-dom": "<rootDir>/packages/synthetic-dom/src/main.js"
+    }
+  }
 }

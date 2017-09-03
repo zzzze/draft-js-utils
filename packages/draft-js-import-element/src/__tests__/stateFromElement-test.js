@@ -7,11 +7,8 @@ import {
   ElementNode,
 } from 'synthetic-dom';
 import {convertToRaw} from 'draft-js';
-import {jsdom} from 'jsdom';
 import fs from 'fs';
 import {join} from 'path';
-
-let document = jsdom('<!doctype html><html><body></body></html>');
 
 // This separates the test cases in `data/test-cases.txt`.
 const SEP = '\n\n#';
