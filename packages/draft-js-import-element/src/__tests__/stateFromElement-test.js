@@ -151,9 +151,11 @@ describe('stateFromHTML', () => {
 });
 
 function parseHTML(html: string): Element {
-  document.documentElement.innerHTML = html;
-  let body: Element = document.body;
-  return body;
+  if (document.documentElement) {
+    document.documentElement.innerHTML = html;
+  }
+  // This makes Flow happy
+  return document.body || document.createElement('body');
 }
 
 function removeBlockKeys(content: Object): Object {

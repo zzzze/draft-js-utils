@@ -137,7 +137,7 @@ export class FragmentNode extends Node {
     }
   }
 
-  toString(isXHTML: boolean): string {
+  toString(isXHTML: ?boolean): string {
     return this.childNodes.map((node) => node.toString(isXHTML)).join('');
   }
 }

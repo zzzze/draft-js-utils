@@ -7,7 +7,10 @@ export default function parseHTML(html: string): Element {
     doc = parser.parseFromString(html, 'text/html');
   } else {
     doc = document.implementation.createHTMLDocument('');
-    doc.documentElement.innerHTML = html;
+    if (doc.documentElement) {
+      doc.documentElement.innerHTML = html;
+    }
   }
-  return doc.body;
+  // This makes Flow happy
+  return doc.body || doc.createElement('body');
 }
