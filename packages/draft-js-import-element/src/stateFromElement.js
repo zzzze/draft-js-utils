@@ -49,14 +49,42 @@ type ParsedBlock = {
 
 export type ElementStyles = {[tagName: string]: Style};
 
+type PartialBlock = {
+  type?: string;
+  data?: BlockData;
+};
+
 export type CustomBlockFn = (
   element: DOMElement,
-) => ?{type?: string; data?: BlockData};
+) => ?PartialBlock;
+
+type EntityData = {[key: string]: mixed};
+type EntityMutability = 'IMMUTABLE' | 'MUTABLE' | 'SEGMENTED';
+
+type CustomStyle = {
+  type: 'STYLE';
+  style: Style;
+};
+
+type CustomEntity = {
+  type: 'ENTITY';
+  entityKey: string;
+};
+
+export type CustomInlineFn = (
+  tagName: string,
+  element: DOMElement,
+  creators: {
+    Style: (style: string) => CustomStyle;
+    Entity: (type: string, data: EntityData, mutability?: EntityMutability) => CustomEntity;
+  }
+) => ?(CustomStyle | CustomEntity);
 
 type Options = {
   elementStyles?: ElementStyles;
   blockTypes?: {[key: string]: string};
   customBlockFn?: CustomBlockFn;
+  customInlineFn?: CustomInlineFn;
 };
 
 const NO_STYLE = OrderedSet();
@@ -103,7 +131,7 @@ const getEntityData = (tagName: string, element: DOMElement) => {
   return data;
 };
 
-// Functions to convert elements to entities.
+// Functions to create entities from elements.
 const ElementToEntity = {
   a(
     generator: ContentGenerator,
@@ -113,7 +141,7 @@ const ElementToEntity = {
     let data = getEntityData(tagName, element);
     // Don't add `<a>` elements with no href.
     if (data.url != null) {
-      return generator.createEntity(ENTITY_TYPE.LINK, 'MUTABLE', data);
+      return generator.createEntity(ENTITY_TYPE.LINK, data);
     }
   },
   img(
@@ -124,7 +152,7 @@ const ElementToEntity = {
     let data = getEntityData(tagName, element);
     // Don't add `<img>` elements with no src.
     if (data.src != null) {
-      return generator.createEntity(ENTITY_TYPE.IMAGE, 'MUTABLE', data);
+      return generator.createEntity(ENTITY_TYPE.IMAGE, data);
     }
   },
 };
@@ -135,6 +163,15 @@ class ContentGenerator {
   blockList: Array<ParsedBlock>;
   depth: number;
   options: Options;
+  // This will be passed to the customInlineFn to allow it
+  // to return a Style() or Entity().
+  inlineCreators = {
+    Style: (style: Style) => ({type: 'STYLE', style}),
+    Entity: (type: string, data: EntityData, mutability: EntityMutability = 'MUTABLE') => ({
+      type: 'ENTITY',
+      entityKey: this.createEntity(type, data, mutability),
+    }),
+  };
 
   constructor(options: Options = {}) {
     this.options = options;
@@ -298,10 +335,25 @@ class ContentGenerator {
     let block = this.blockStack.slice(-1)[0];
     let style = block.styleStack.slice(-1)[0];
     let entityKey = block.entityStack.slice(-1)[0];
-    style = addStyleFromTagName(style, tagName, this.options.elementStyles);
-    if (ElementToEntity.hasOwnProperty(tagName)) {
-      // If the to-entity function returns nothing, use the existing entity.
-      entityKey = ElementToEntity[tagName](this, tagName, element) || entityKey;
+    let {customInlineFn} = this.options;
+    let customInline = customInlineFn ? customInlineFn(tagName, element, this.inlineCreators) : null;
+    if (customInline != null) {
+      switch (customInline.type) {
+        case 'STYLE': {
+          style = style.add(customInline.style);
+          break;
+        }
+        case 'ENTITY': {
+          entityKey = customInline.entityKey;
+          break;
+        }
+      }
+    } else {
+      style = addStyleFromTagName(style, tagName, this.options.elementStyles);
+      if (ElementToEntity.hasOwnProperty(tagName)) {
+        // If the to-entity function returns nothing, use the existing entity.
+        entityKey = ElementToEntity[tagName](this, tagName, element) || entityKey;
+      }
     }
     block.styleStack.push(style);
     block.entityStack.push(entityKey);
@@ -357,7 +409,7 @@ class ContentGenerator {
     }
   }
 
-  createEntity(type: string, mutability: string, data: Object) {
+  createEntity(type: string, data: EntityData, mutability: EntityMutability = 'MUTABLE') {
     this.contentStateForEntities = this.contentStateForEntities.createEntity(
       type,
       mutability,
