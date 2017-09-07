@@ -52,8 +52,8 @@ describe('stateFromElement', () => {
     let element = new ElementNode('center', [], [textNode]);
     let options = {
       customBlockFn(element) {
-        let {nodeName} = element;
-        if (nodeName.toLowerCase() === 'center') {
+        let {tagName} = element;
+        if (tagName === 'CENTER') {
           return {type: 'center-align'};
         }
       },
@@ -84,9 +84,9 @@ describe('stateFromElement', () => {
     );
     let options = {
       customBlockFn(element) {
-        let {nodeName} = element;
+        let {tagName} = element;
         if (
-          nodeName.toLowerCase() === 'p' &&
+          tagName === 'P' &&
           element.getAttribute('align') === 'right'
         ) {
           return {data: {textAlign: 'right'}};

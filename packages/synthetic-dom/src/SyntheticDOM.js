@@ -47,11 +47,11 @@ export class TextNode extends Node {
 }
 
 export class ElementNode extends Node {
-  tagName: string;
+  _name: string;
+  _attrMap: Map<string, Attr>;
+  _isSelfClosing: boolean;
   childNodes: Array<Node>;
   attributes: AttrList;
-  attrMap: Map<string, Attr>;
-  isSelfClosing: boolean;
 
   constructor(name: string, attributes: ?AttrList, childNodes: ?Array<Node>) {
     super(...arguments);
@@ -60,12 +60,12 @@ export class ElementNode extends Node {
     }
     let isSelfClosing = SELF_CLOSING[name] === true;
     this.nodeType = NODE_TYPE_ELEMENT;
-    this.nodeName = name;
-    this.tagName = name.toUpperCase();
+    this._name = name.toLowerCase();
     this.attributes = attributes;
-    this.attrMap = new Map(attributes.map((attr) => [attr.name, attr]));
+    this._attrMap = new Map(attributes.map((attr) => [attr.name, attr]));
+    this.nodeName = name.toUpperCase();
     this.childNodes = [];
-    this.isSelfClosing = isSelfClosing;
+    this._isSelfClosing = isSelfClosing;
     if (!isSelfClosing && childNodes) {
       childNodes.forEach(this.appendChild, this);
     }
@@ -83,12 +83,16 @@ export class ElementNode extends Node {
     }
   }
 
+  get tagName(): string {
+    return this.nodeName;
+  }
+
   get className(): string {
     return this.getAttribute('class') || '';
   }
 
   getAttribute(name: string): ?string {
-    let attr = this.attrMap.get(name);
+    let attr = this._attrMap.get(name);
     if (attr) {
       return attr.value;
     }
@@ -100,20 +104,20 @@ export class ElementNode extends Node {
       attributes.push(name + (value ? '="' + escapeAttr(value) + '"' : ''));
     }
     let attrString = attributes.length ? ' ' + attributes.join(' ') : '';
-    if (this.isSelfClosing) {
-      return '<' + this.nodeName + attrString + (isXHTML ? '/>' : '>');
+    if (this._isSelfClosing) {
+      return '<' + this._name + attrString + (isXHTML ? '/>' : '>');
     }
     let childNodes = this.childNodes
       .map((node) => node.toString(isXHTML))
       .join('');
     return (
       '<' +
-      this.nodeName +
+      this._name +
       attrString +
       '>' +
       childNodes +
       '</' +
-      this.nodeName +
+      this._name +
       '>'
     );
   }

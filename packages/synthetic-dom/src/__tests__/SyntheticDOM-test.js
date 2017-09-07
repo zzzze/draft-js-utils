@@ -21,7 +21,7 @@ describe('Elements', () => {
   it('should accept empty attributes and empty children', () => {
     let element = new ElementNode('div', [], []);
     expect(element.nodeType).toBe(NODE_TYPE_ELEMENT);
-    expect(element.nodeName).toBe('div');
+    expect(element.nodeName).toBe('DIV');
     expect(element.tagName).toBe('DIV');
     expect(element.attributes).toBeAn(Array);
     expect(element.attributes.length).toBe(0);
