@@ -14,7 +14,7 @@ This project is still under development. If you want to help out, please open an
 
 `stateFromElement` takes a DOM node `element` and returns a DraftJS [ContentState](https://facebook.github.io/draft-js/docs/api-reference-content-state.html).
 
-```javascript
+```js
 import {stateFromElement} from 'draft-js-import-element';
 const contentState = stateFromElement(element);
 ```
@@ -25,29 +25,34 @@ You can optionally pass a second `Object` argument to `stateFromElement` with th
 
 - `customBlockFn`: Function to specify block type/data based on HTML element. Example:
 ```js
-stateFromElement(element, {
+let options = {
   // Should return null/undefined or an object with optional: type (string); data (plain object)
-  customBlockFn(element) {
-    let {tagName, style} = element;
-    if (tagName === 'ARTICLE') {
+  customBlockFn: (element) => {
+    if (element.tagName === 'ARTICLE') {
       return {type: 'custom-block-type'};
     }
-    // Add support for <p style="text-align: center">...</p>
-    if (tagName === 'P' && style.textAlign) {
-      return {data: {textAlign: style.textAlign}};
+    if (element.tagName === 'CENTER') {
+      return {data: {align: 'center'}};
     }
-  }
-});
+  },
+};
+let contentState = stateFromElement(element, options);
 ```
 
-- `blockTypes`: Deprecated; use customBlockFn.
+- `customInlineFn`: Function to specify how inline elements are handled. Example:
+
 ```js
-stateFromElement(element, {
-  blockTypes: {
-    // support `<center>` as a custom block type `center-align`
-    'center': 'center-align'
-  }
-});
+let options = {
+  // Should return a Style() or Entity() or null/undefined
+  customInlineFn: (element, {Style, Entity}) => {
+    if (element.tagName === 'SPAN' && element.className === 'emphasis') {
+      return Style('ITALIC');
+    } else if (element.tagName === 'IMG') {
+      return Entity('IMAGE', {src: element.getAttribute('src')});
+    }
+  },
+};
+let contentState = stateFromElement(element, options);
 ```
 
 - `elementStyles`: HTML element name as key, DraftJS style string as value. Example:
@@ -55,7 +60,7 @@ stateFromElement(element, {
 stateFromElement(element, {
   elementStyles: {
     // Support `<sup>` (superscript) inline element:
-    'sup': 'SUPERSCRIPT'
+    'sup': 'SUPERSCRIPT',
   },
 });
 ```
