@@ -1,14 +1,14 @@
 {
   "name": "draft-js-import-markdown",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "DraftJS: Import Markdown to ContentState",
   "main": "lib/main.js",
   "scripts": {
     "build": "babel src --out-dir lib --ignore \"_*\""
   },
   "dependencies": {
-    "draft-js-import-element": "^1.0.2",
-    "synthetic-dom": "^1.0.2"
+    "draft-js-import-element": "^1.1.0",
+    "synthetic-dom": "^1.1.0"
   },
   "peerDependencies": {
     "draft-js": ">=0.10.0",

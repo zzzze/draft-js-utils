@@ -1,6 +1,6 @@
 {
   "name": "draft-js-export-html",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "DraftJS: Export ContentState to HTML",
   "main": "lib/main.js",
   "typings": "typings/index.d.ts",
@@ -8,7 +8,7 @@
     "build": "babel src --out-dir lib --ignore \"_*\""
   },
   "dependencies": {
-    "draft-js-utils": "^1.0.2"
+    "draft-js-utils": "^1.1.0"
   },
   "peerDependencies": {
     "draft-js": ">=0.10.0",
