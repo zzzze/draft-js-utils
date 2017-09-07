@@ -120,7 +120,8 @@ describe('stateFromElement', () => {
       ]),
     ]);
     let options = {
-      customInlineFn(tagName, el, {Style, Entity}) {
+      customInlineFn(el, {Style, Entity}) {
+        let tagName = el.nodeName.toLowerCase();
         if (tagName === 'span' && el.getAttribute('class') === 'bold') {
           return Style('BOLD');
         }

@@ -72,7 +72,6 @@ type CustomEntity = {
 };
 
 export type CustomInlineFn = (
-  tagName: string,
   element: DOMElement,
   creators: {
     Style: (style: string) => CustomStyle;
@@ -336,7 +335,7 @@ class ContentGenerator {
     let style = block.styleStack.slice(-1)[0];
     let entityKey = block.entityStack.slice(-1)[0];
     let {customInlineFn} = this.options;
-    let customInline = customInlineFn ? customInlineFn(tagName, element, this.inlineCreators) : null;
+    let customInline = customInlineFn ? customInlineFn(element, this.inlineCreators) : null;
     if (customInline != null) {
       switch (customInline.type) {
         case 'STYLE': {
