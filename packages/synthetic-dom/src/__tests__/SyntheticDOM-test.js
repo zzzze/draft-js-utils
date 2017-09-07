@@ -22,6 +22,7 @@ describe('Elements', () => {
     let element = new ElementNode('div', [], []);
     expect(element.nodeType).toBe(NODE_TYPE_ELEMENT);
     expect(element.nodeName).toBe('div');
+    expect(element.tagName).toBe('DIV');
     expect(element.attributes).toBeAn(Array);
     expect(element.attributes.length).toBe(0);
     expect(element.childNodes).toEqual([]);
@@ -49,10 +50,20 @@ describe('Elements', () => {
     expect(element.toString()).toBe('<hr>');
   });
 
+  it('should support className getter', () => {
+    let p = new ElementNode('p');
+    expect(p.className).toBe('');
+    p = new ElementNode('p', [{name: 'class', value: 'abc'}]);
+    expect(p.className).toBe('abc');
+  });
+
   it('should stringify correctly', () => {
     let br = new ElementNode('br');
     let p = new ElementNode('p', null, [br, br]);
-    let attrs = [{name: 'className', value: 'foo'}];
+    let attrs = [
+      {name: 'class', value: 'abc'},
+      {name: 'className', value: 'def'},
+    ];
     let element = new ElementNode('div', attrs, [p]);
     expect(element.childNodes.length).toBe(1);
     let firstChild = element.childNodes[0];
@@ -63,10 +74,10 @@ describe('Elements', () => {
       expect(firstChild).toBeAn(ElementNode);
     }
     expect(element.toString()).toBe(
-      '<div className="foo"><p><br><br></p></div>',
+      '<div class="abc" className="def"><p><br><br></p></div>',
     );
     expect(element.toString(true)).toBe(
-      '<div className="foo"><p><br/><br/></p></div>',
+      '<div class="abc" className="def"><p><br/><br/></p></div>',
     );
   });
 });

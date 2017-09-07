@@ -47,6 +47,7 @@ export class TextNode extends Node {
 }
 
 export class ElementNode extends Node {
+  tagName: string;
   childNodes: Array<Node>;
   attributes: AttrList;
   attrMap: Map<string, Attr>;
@@ -60,6 +61,7 @@ export class ElementNode extends Node {
     let isSelfClosing = SELF_CLOSING[name] === true;
     this.nodeType = NODE_TYPE_ELEMENT;
     this.nodeName = name;
+    this.tagName = name.toUpperCase();
     this.attributes = attributes;
     this.attrMap = new Map(attributes.map((attr) => [attr.name, attr]));
     this.childNodes = [];
@@ -79,6 +81,10 @@ export class ElementNode extends Node {
     } else {
       this.childNodes.push(node);
     }
+  }
+
+  get className(): string {
+    return this.getAttribute('class') || '';
   }
 
   getAttribute(name: string): ?string {

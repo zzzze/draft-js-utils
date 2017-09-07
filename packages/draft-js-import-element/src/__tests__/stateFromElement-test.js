@@ -121,11 +121,10 @@ describe('stateFromElement', () => {
     ]);
     let options = {
       customInlineFn(el, {Style, Entity}) {
-        let tagName = el.nodeName.toLowerCase();
-        if (tagName === 'span' && el.getAttribute('class') === 'bold') {
+        if (el.tagName === 'SPAN' && el.className === 'bold') {
           return Style('BOLD');
         }
-        if (tagName === 'span' && el.getAttribute('class') === 'link') {
+        if (el.tagName === 'SPAN' && el.className === 'link') {
           return Entity('LINK', {url: '/abc'});
         }
       },

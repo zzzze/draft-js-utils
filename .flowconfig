@@ -7,6 +7,7 @@
 [options]
 module.system=haste
 esproposal.class_static_fields=enable
+unsafe.enable_getters_and_setters=true
 
 module.name_mapper='^draft-js-import-element$' -> '<PROJECT_ROOT>/packages/draft-js-import-element/src/main'
 module.name_mapper='^draft-js-utils$' -> '<PROJECT_ROOT>/packages/draft-js-utils/src/main'
