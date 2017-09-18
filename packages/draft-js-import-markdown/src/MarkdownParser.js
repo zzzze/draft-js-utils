@@ -593,12 +593,12 @@ function Renderer(options) {
   this.options = options || {};
 }
 
-Renderer.prototype.code = function(childNode, lang) {
+Renderer.prototype.code = function(text, lang) {
   var attributes = [];
   if (lang) {
     attributes.push({name: 'class', value: this.options.langPrefix + lang});
   }
-  var codeNode = new ElementNode('code', attributes, [childNode]);
+  var codeNode = new ElementNode('code', attributes, [new TextNode(text)]);
   return new ElementNode('pre', [], [codeNode]);
 };
 
