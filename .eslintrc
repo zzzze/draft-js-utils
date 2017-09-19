@@ -17,7 +17,13 @@
     "Set": false,
     "Promise": false,
     "document": false,
-    "DOMParser": false
+    "DOMParser": false,
+    // Jest globals
+    "it": false,
+    "describe": false,
+    "beforeEach": false,
+    "afterEach": false,
+    "expect": false
   },
   "rules": {
     // flowtype rules
