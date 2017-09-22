@@ -62,6 +62,10 @@
 {"entityMap":{},"blocks":[{"key":"3n6ro","text":"a","type":"unstyled","data":{},"depth":0,"inlineStyleRanges":[],"entityRanges":[]}]}
 <p><a id="foo">a</a></p>
 
+# Link with potentially unsafe href
+{"entityMap":{},"blocks":[{"key":"3n6rp","text":"xss","type":"unstyled","data":{},"depth":0,"inlineStyleRanges":[],"entityRanges":[]}]}
+<p><a href="data:text/html;base64,PHNjcmlwdD5hbGVydCgieHNzIik8L3NjcmlwdD4=">xss</a></p>
+
 # Entity with supported and unsupported attributes
 {"entityMap":{"0":{"type":"LINK","mutability":"MUTABLE","data":{"url":"/","rel":"foo","target":"_blank"}}},"blocks":[{"key":"8r91j","text":"a","type":"unstyled","data":{},"depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":1,"key":0}]}]}
 <p><a href="/" rel="foo" target="_blank" id="bar" baz="baz">a</a></p>

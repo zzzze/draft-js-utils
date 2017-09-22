@@ -86,6 +86,7 @@ type Options = {
 };
 type DataMap<T> = {[key: string]: T};
 
+const DATA_URL = /^data:/i;
 const NO_STYLE = OrderedSet();
 const NO_ENTITY = null;
 
@@ -139,8 +140,8 @@ const ElementToEntity = {
     element: DOMElement,
   ): ?string {
     let data = getEntityData(tagName, element);
-    // Don't add `<a>` elements with no href.
-    if (data.url != null) {
+    // Don't add `<a>` elements with invalid href.
+    if (isAllowedHref(data.url)) {
       return generator.createEntity(ENTITY_TYPE.LINK, data);
     }
   },
@@ -556,6 +557,14 @@ function toStringMap(input: mixed) {
     }
   }
   return result;
+}
+
+function isAllowedHref(input: ?string) {
+  if (input == null || input.match(DATA_URL)) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 export function stateFromElement(
