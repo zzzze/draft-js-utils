@@ -58,7 +58,6 @@ export type CustomBlockFn = (
   element: DOMElement,
 ) => ?PartialBlock;
 
-type EntityData = {[key: string]: mixed};
 type EntityMutability = 'IMMUTABLE' | 'MUTABLE' | 'SEGMENTED';
 
 type CustomStyle = {
@@ -75,7 +74,7 @@ export type CustomInlineFn = (
   element: DOMElement,
   creators: {
     Style: (style: string) => CustomStyle;
-    Entity: (type: string, data: EntityData, mutability?: EntityMutability) => CustomEntity;
+    Entity: (type: string, data: DataMap<mixed>, mutability?: EntityMutability) => CustomEntity;
   }
 ) => ?(CustomStyle | CustomEntity);
 
@@ -85,6 +84,7 @@ type Options = {
   customBlockFn?: CustomBlockFn;
   customInlineFn?: CustomInlineFn;
 };
+type DataMap<T> = {[key: string]: T};
 
 const NO_STYLE = OrderedSet();
 const NO_ENTITY = null;
@@ -112,17 +112,18 @@ const ELEM_ATTR_MAP = {
 };
 
 const getEntityData = (tagName: string, element: DOMElement) => {
-  const data = {};
+  const data: DataMap<string> = {};
   if (ELEM_ATTR_MAP.hasOwnProperty(tagName)) {
     const attrMap = ELEM_ATTR_MAP[tagName];
     for (let i = 0; i < element.attributes.length; i++) {
       const {name, value} = element.attributes[i];
-      if (value != null) {
+      if (typeof value === 'string') {
+        let strVal = value;
         if (attrMap.hasOwnProperty(name)) {
           const newName = attrMap[name];
-          data[newName] = value;
+          data[newName] = strVal;
         } else if (DATA_ATTRIBUTE.test(name)) {
-          data[name] = value;
+          data[name] = strVal;
         }
       }
     }
@@ -166,9 +167,9 @@ class ContentGenerator {
   // to return a Style() or Entity().
   inlineCreators = {
     Style: (style: Style) => ({type: 'STYLE', style}),
-    Entity: (type: string, data: EntityData, mutability: EntityMutability = 'MUTABLE') => ({
+    Entity: (type: string, data: DataMap<mixed>, mutability: EntityMutability = 'MUTABLE') => ({
       type: 'ENTITY',
-      entityKey: this.createEntity(type, data, mutability),
+      entityKey: this.createEntity(type, toStringMap(data), mutability),
     }),
   };
 
@@ -408,7 +409,7 @@ class ContentGenerator {
     }
   }
 
-  createEntity(type: string, data: EntityData, mutability: EntityMutability = 'MUTABLE') {
+  createEntity(type: string, data: DataMap<string>, mutability: EntityMutability = 'MUTABLE') {
     this.contentStateForEntities = this.contentStateForEntities.createEntity(
       type,
       mutability,
@@ -541,6 +542,20 @@ function addStyleFromTagName(
 
 function hasSemanticMeaning(blockType: string) {
   return blockType !== BLOCK_TYPE.UNSTYLED;
+}
+
+function toStringMap(input: mixed) {
+  let result: DataMap<string> = {};
+  if (input !== null && typeof input === 'object' && !Array.isArray(input)) {
+    let obj = input;
+    for (let key of Object.keys(obj)) {
+      let value = obj[key];
+      if (typeof value === 'string') {
+        result[key] = value;
+      }
+    }
+  }
+  return result;
 }
 
 export function stateFromElement(

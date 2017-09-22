@@ -5,7 +5,6 @@
  *   Use ES6 classes
  *   Add flow annotations
  */
-/* eslint-disable no-spaced-func */
 
 import {TextNode, ElementNode, FragmentNode, SELF_CLOSING} from 'synthetic-dom';
 
