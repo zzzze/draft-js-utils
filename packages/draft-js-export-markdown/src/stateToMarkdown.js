@@ -1,6 +1,7 @@
 // @flow
 
 import {
+  isAllowedHref,
   getEntityRanges,
   BLOCK_TYPE,
   ENTITY_TYPE,
@@ -216,6 +217,9 @@ class MarkupGenerator {
         let entity = entityKey ? contentState.getEntity(entityKey) : null;
         if (entity != null && entity.getType() === ENTITY_TYPE.LINK) {
           let data = entity.getData();
+          if (!isAllowedHref(data.url)) {
+            return content;
+          }
           let url = data.url || '';
           let title = data.title ? ` "${escapeTitle(data.title)}"` : '';
           return `[${content}](${encodeURL(url)}${title})`;
