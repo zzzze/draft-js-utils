@@ -171,6 +171,38 @@ describe('stateFromElement', () => {
       ],
     });
   });
+
+  it('should support images', () => {
+    let imageNode = new ElementNode('img', [{name: 'src', value: 'imgur.com/asdf.jpg'}]);
+    let wrapperElement = new ElementNode('div', [], [imageNode]);
+    let contentState = stateFromElement(wrapperElement);
+    let rawContentState = removeBlockKeys(convertToRaw(contentState));
+    expect(rawContentState).toEqual({
+      blocks: [{
+        data: {},
+        depth: 0,
+        entityRanges: [{
+          key: 0,
+          length: 1,
+          offset: 0,
+        }],
+        inlineStyleRanges: [],
+        text: ' ',
+        type: 'unstyled',
+      }],
+      entityMap: {
+        // This is necessary due to flow not supporting non-string literal property keys
+        // eslint-disable-next-line quote-props
+        '0': {
+          data: {
+            src: 'imgur.com/asdf.jpg',
+          },
+          mutability: 'MUTABLE',
+          type: 'IMAGE',
+        },
+      },
+    });
+  });
 });
 
 describe('stateFromHTML', () => {
