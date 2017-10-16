@@ -42,6 +42,30 @@ let options = {
 };
 let html = stateToHTML(contentState, options);
 ```
+### `inlineStylesFn`
+
+You can define custom function to return rendering options based on inline styles. Similar to draft.js [customStyleFn](https://draftjs.org/docs/api-reference-editor.html#customstylefn).
+
+Example:
+
+```javascript
+let options = {
+  inlineStyleFn: (styles) => {
+    let key = 'color-';
+    let color = styles.filter((value) => value.startsWith(key)).first();
+
+    if (color) {
+      return {
+        element: 'span',
+        style: {
+          color: color.replace(key, ''),
+        },
+      };
+    }
+  },
+};
+let html = stateToHTML(contentState, options);
+```
 
 ### `blockRenderers`
 

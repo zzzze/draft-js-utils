@@ -18,6 +18,7 @@ import type {
   EntityInstance,
 } from 'draft-js';
 import type {CharacterMetaList} from 'draft-js-utils';
+import type {DraftInlineStyle} from 'draft-js/lib/DraftInlineStyle';
 
 type AttrMap = {[key: string]: string};
 type Attributes = {[key: string]: string};
@@ -36,9 +37,11 @@ type StyleMap = {[styleName: string]: RenderConfig};
 
 type BlockStyleFn = (block: ContentBlock) => ?RenderConfig;
 type EntityStyleFn = (entity: Entity) => ?RenderConfig;
+type InlineStyleFn = (style: DraftInlineStyle) => ?RenderConfig;
 
 type Options = {
   inlineStyles?: StyleMap;
+  inlineStyleFn?: InlineStyleFn;
   blockRenderers?: BlockRendererMap;
   blockStyleFn?: BlockStyleFn;
   entityStyleFn?: EntityStyleFn;
@@ -176,6 +179,7 @@ class MarkupGenerator {
   // These are related to user-defined options.
   options: Options;
   inlineStyles: StyleMap;
+  inlineStyleFn: ?InlineStyleFn;
   styleOrder: Array<string>;
 
   constructor(contentState: ContentState, options: ?Options) {
@@ -192,6 +196,7 @@ class MarkupGenerator {
       DEFAULT_STYLE_ORDER,
     ]);
     this.inlineStyles = inlineStyles;
+    this.inlineStyleFn = options.inlineStyleFn;
     this.styleOrder = styleOrder;
   }
 
@@ -334,6 +339,25 @@ class MarkupGenerator {
     this.output.push(INDENT.repeat(this.indentLevel));
   }
 
+  withCustomInlineStyles(content, styleSet) {
+    if (!this.inlineStyleFn) {
+      return content;
+    }
+
+    const renderConfig = this.inlineStyleFn(styleSet);
+    if (!renderConfig) {
+      return content;
+    }
+
+    const {element = 'span', attributes, style} = renderConfig;
+    const attrString = stringifyAttrs({
+      ...attributes,
+      style: style && styleToCSS(style),
+    });
+
+    return `<${element}${attrString}>${content}</${element}>`;
+  }
+
   renderBlockContent(block: ContentBlock): string {
     let blockType = block.getType();
     let text = block.getText();
@@ -372,7 +396,8 @@ class MarkupGenerator {
                 content = `<${element}${attrString}>${content}</${element}>`;
               }
             }
-            return content;
+
+            return this.withCustomInlineStyles(content, styleSet);
           })
           .join('');
         let entity = entityKey ? this.contentState.getEntity(entityKey) : null;
