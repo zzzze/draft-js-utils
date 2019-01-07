@@ -1,5 +1,5 @@
 {
-  "name": "draft-js-utils",
+  "name": "draft-js-utils-monorepo",
   "scripts": {
     "build": "lerna run build",
     "watch": "lerna run --parallel watch",
