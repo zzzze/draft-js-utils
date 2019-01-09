@@ -109,7 +109,7 @@ block.gfm.paragraph = replace(block.paragraph)(
 function Lexer(options) {
   this.tokens = [];
   this.tokens.links = {};
-  this.options = assign({}, options || defaults);
+  this.options = options ? assign({}, defaults, options) : assign({}, defaults);
   this.rules = block.normal;
 
   if (this.options.gfm) {

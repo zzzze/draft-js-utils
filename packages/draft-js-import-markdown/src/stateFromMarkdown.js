@@ -11,12 +11,16 @@ type Options = {
   blockTypes?: {[key: string]: string};
   customBlockFn?: CustomBlockFn;
   customInlineFn?: CustomInlineFn;
+  parserOptions?: {[key: string]: mixed}; // TODO: Be more explicit
 };
+
+let defaultOptions: Options = {};
 
 export default function stateFromMarkdown(
   markdown: string,
   options?: Options,
 ): ContentState {
-  let element = MarkdownParser.parse(markdown, {getAST: true});
-  return stateFromElement(element, options);
+  let {parserOptions, ...otherOptions} = options || defaultOptions;
+  let element = MarkdownParser.parse(markdown, {getAST: true, ...parserOptions});
+  return stateFromElement(element, otherOptions);
 }
