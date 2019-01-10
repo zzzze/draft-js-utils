@@ -5,8 +5,8 @@ import stateFromMarkdown from '../stateFromMarkdown';
 import {convertToRaw} from 'draft-js';
 
 describe('stateFromMarkdown', () => {
-  let markdown = 'Hello World';
   it('should create content state', () => {
+    let markdown = 'Hello World';
     let contentState = stateFromMarkdown(markdown);
     let rawContentState = convertToRaw(contentState);
     let blocks = removeKeys(rawContentState.blocks);
@@ -21,9 +21,9 @@ describe('stateFromMarkdown', () => {
       },
     ]);
   });
-  it('should correctly move code blocks', () => {
-    let codeMarkdown = "```\nconst a = 'b'\n```";
-    let contentState = stateFromMarkdown(codeMarkdown);
+  it('should correctly handle code blocks', () => {
+    let markdown = "```\nconst a = 'b'\n```";
+    let contentState = stateFromMarkdown(markdown);
     let rawContentState = convertToRaw(contentState);
     let blocks = removeKeys(rawContentState.blocks);
     expect(blocks).toEqual([
@@ -43,10 +43,26 @@ describe('stateFromMarkdown', () => {
       },
     ]);
   });
-  it('should correctly move images with complex srcs', () => {
+  it('should correctly handle linebreaks option', () => {
+    let markdown = 'Hello\nWorld';
+    let contentState = stateFromMarkdown(markdown, {parserOptions: {breaks: true}});
+    let rawContentState = convertToRaw(contentState);
+    let blocks = removeKeys(rawContentState.blocks);
+    expect(blocks).toEqual([
+      {
+        text: 'Hello\nWorld',
+        type: 'unstyled',
+        depth: 0,
+        inlineStyleRanges: [],
+        entityRanges: [],
+        data: {},
+      },
+    ]);
+  });
+  it('should correctly handle images with complex srcs', () => {
     const src = 'https://spectrum.imgix.net/threads/c678032e-68a4-4e14-956d-abfa444a707d/Captura%20de%20pantalla%202017-08-19%20a%20la(s)%2000.14.09.png.0.29802431313299893';
-    let input = `![](${src})`;
-    let contentState = stateFromMarkdown(input);
+    let markdown = `![](${src})`;
+    let contentState = stateFromMarkdown(markdown);
     let rawContentState = convertToRaw(contentState);
     let blocks = removeKeys(rawContentState.blocks);
     expect({
