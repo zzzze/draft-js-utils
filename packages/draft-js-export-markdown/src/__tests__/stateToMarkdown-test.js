@@ -20,18 +20,20 @@ let testCases = testCasesRaw
   .split(SEP)
   .map((text) => {
     let lines = text.split('\n');
-    let description = lines.shift().trim();
-    let state = JSON.parse(lines[0]);
-    let markdown = lines.slice(1).join('\n');
-    return {description, state, markdown};
+    let [description, config] = lines.shift().split('|');
+    description = description.trim();
+    let options = config ? JSON.parse(config.trim()) : undefined;
+    let state = JSON.parse(lines.shift());
+    let markdown = lines.join('\n');
+    return {description, state, markdown, options};
   });
 
 describe('stateToMarkdown', () => {
   testCases.forEach((testCase) => {
-    let {description, state, markdown} = testCase;
+    let {description, state, markdown, options} = testCase;
     it(`should render ${description}`, () => {
       let contentState = convertFromRaw(state);
-      expect(stateToMarkdown(contentState)).toBe(markdown + '\n');
+      expect(stateToMarkdown(contentState, options)).toBe(markdown + '\n');
     });
   });
 });
