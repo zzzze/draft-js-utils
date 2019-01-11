@@ -9,9 +9,17 @@ import {
 
 import type {ContentState, ContentBlock} from 'draft-js';
 
+type Options = {
+  codeFence?: ?boolean;
+};
+
 const {BOLD, CODE, ITALIC, STRIKETHROUGH, UNDERLINE} = INLINE_STYLE;
 
 const CODE_INDENT = '    ';
+
+const defaultOptions: Options = {
+  codeFence: false,
+};
 
 class MarkupGenerator {
   blocks: Array<ContentBlock>;
@@ -20,9 +28,11 @@ class MarkupGenerator {
   output: Array<string>;
   totalBlocks: number;
   listItemCounts: Object;
+  options: Options;
 
-  constructor(contentState: ContentState) {
+  constructor(contentState: ContentState, options?: Options) {
     this.contentState = contentState;
+    this.options = options || defaultOptions;
   }
 
   generate(): string {
@@ -120,7 +130,13 @@ class MarkupGenerator {
       }
       case BLOCK_TYPE.CODE: {
         this.insertLineBreaks(1);
-        this.output.push(CODE_INDENT + this.renderBlockContent(block) + '\n');
+        if (this.options.codeFence) {
+          this.output.push('```\n');
+          this.output.push(this.renderBlockContent(block) + '\n');
+          this.output.push('```\n');
+        } else {
+          this.output.push(CODE_INDENT + this.renderBlockContent(block) + '\n');
+        }
         break;
       }
       default: {
@@ -257,6 +273,9 @@ function escapeTitle(text) {
   return text.replace(/"/g, '\\"');
 }
 
-export default function stateToMarkdown(content: ContentState): string {
-  return new MarkupGenerator(content).generate();
+export default function stateToMarkdown(
+  content: ContentState,
+  options?: Options,
+): string {
+  return new MarkupGenerator(content, options).generate();
 }
