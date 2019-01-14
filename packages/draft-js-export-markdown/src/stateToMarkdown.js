@@ -10,7 +10,7 @@ import {
 import type {ContentState, ContentBlock} from 'draft-js';
 
 type Options = {
-  codeFence?: ?boolean;
+  gfm?: ?boolean;
 };
 
 const {BOLD, CODE, ITALIC, STRIKETHROUGH, UNDERLINE} = INLINE_STYLE;
@@ -18,7 +18,7 @@ const {BOLD, CODE, ITALIC, STRIKETHROUGH, UNDERLINE} = INLINE_STYLE;
 const CODE_INDENT = '    ';
 
 const defaultOptions: Options = {
-  codeFence: false,
+  gfm: false,
 };
 
 class MarkupGenerator {
@@ -130,7 +130,7 @@ class MarkupGenerator {
       }
       case BLOCK_TYPE.CODE: {
         this.insertLineBreaks(1);
-        if (this.options.codeFence) {
+        if (this.options.gfm) {
           this.output.push('```\n');
           this.output.push(this.renderBlockContent(block) + '\n');
           this.output.push('```\n');
