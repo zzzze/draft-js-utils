@@ -207,7 +207,18 @@ class MarkupGenerator {
             if (!text) {
               return '';
             }
-            let content = encodeContent(text);
+            let content = text;
+            // Don't encode any text inside a code block.
+            if (blockType === BLOCK_TYPE.CODE) {
+              return content;
+            }
+            // NOTE: We attempt some basic character escaping here, although
+            // I don't know if escape sequences are really valid in markdown,
+            // there's not a canonical spec to lean on.
+            if (style.has(CODE)) {
+              return '`' + encodeCode(content) + '`';
+            }
+            content = encodeContent(text);
             if (style.has(BOLD)) {
               content = `**${content}**`;
             }
@@ -221,10 +232,6 @@ class MarkupGenerator {
             if (style.has(STRIKETHROUGH)) {
               // TODO: encode `~`?
               content = `~~${content}~~`;
-            }
-            if (style.has(CODE)) {
-              content =
-                blockType === BLOCK_TYPE.CODE ? content : '`' + content + '`';
             }
             return content;
           })
@@ -260,6 +267,10 @@ function canHaveDepth(blockType: any): boolean {
 
 function encodeContent(text) {
   return text.replace(/[*_`]/g, '\\$&');
+}
+
+function encodeCode(text) {
+  return text.replace(/`/g, '\\`');
 }
 
 // Encode chars that would normally be allowed in a URL but would conflict with
