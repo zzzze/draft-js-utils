@@ -62,3 +62,13 @@ let x = 1;
 ```
 
 Great!
+
+>> Underscores in inline code
+{"entityMap":{},"blocks":[{"text":"hello_world","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":11,"style":"CODE"}],"entityRanges":[],"data":{}}]}
+`hello_world`
+
+>> Special characters in code block | {"gfm": true}
+{"entityMap":{},"blocks":[{"text":"callback(num_items * 1 + 2, ~foo, `string`);","type":"code-block","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}]}
+```
+callback(num_items * 1 + 2, ~foo, `string`);
+```
