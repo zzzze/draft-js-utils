@@ -45,7 +45,9 @@ describe('stateFromMarkdown', () => {
   });
   it('should correctly handle linebreaks option', () => {
     let markdown = 'Hello\nWorld';
-    let contentState = stateFromMarkdown(markdown, {parserOptions: {breaks: true}});
+    let contentState = stateFromMarkdown(markdown, {
+      parserOptions: {breaks: true},
+    });
     let rawContentState = convertToRaw(contentState);
     let blocks = removeKeys(rawContentState.blocks);
     expect(blocks).toEqual([
@@ -60,7 +62,8 @@ describe('stateFromMarkdown', () => {
     ]);
   });
   it('should correctly handle images with complex srcs', () => {
-    const src = 'https://spectrum.imgix.net/threads/c678032e-68a4-4e14-956d-abfa444a707d/Captura%20de%20pantalla%202017-08-19%20a%20la(s)%2000.14.09.png.0.29802431313299893';
+    const src =
+      'https://spectrum.imgix.net/threads/c678032e-68a4-4e14-956d-abfa444a707d/Captura%20de%20pantalla%202017-08-19%20a%20la(s)%2000.14.09.png.0.29802431313299893';
     let markdown = `![](${src})`;
     let contentState = stateFromMarkdown(markdown);
     let rawContentState = convertToRaw(contentState);
@@ -80,18 +83,73 @@ describe('stateFromMarkdown', () => {
           },
         },
       },
-      blocks: [{
-        text: ' ',
-        type: 'unstyled',
-        depth: 0,
-        inlineStyleRanges: [],
-        entityRanges: [{
-          offset: 0,
-          length: 1,
-          key: 0,
-        }],
-        data: {},
-      }],
+      blocks: [
+        {
+          text: ' ',
+          type: 'unstyled',
+          depth: 0,
+          inlineStyleRanges: [],
+          entityRanges: [
+            {
+              offset: 0,
+              length: 1,
+              key: 0,
+            },
+          ],
+          data: {},
+        },
+      ],
+    });
+  });
+  it('should correctly links', () => {
+    let markdown = `[link1](https://google.com) [link2](https://google.com)`;
+    let contentState = stateFromMarkdown(markdown);
+    let rawContentState = convertToRaw(contentState);
+    let blocks = removeKeys(rawContentState.blocks);
+    expect({
+      ...rawContentState,
+      blocks,
+    }).toEqual({
+      entityMap: {
+        // This is necessary due to flow not supporting non-string literal property keys
+        // eslint-disable-next-line quote-props
+        '0': {
+          type: 'LINK',
+          mutability: 'MUTABLE',
+          data: {
+            url: 'https://google.com',
+          },
+        },
+        // eslint-disable-next-line quote-props
+        '1': {
+          type: 'LINK',
+          mutability: 'MUTABLE',
+          data: {
+            url: 'https://google.com',
+          },
+        },
+      },
+      blocks: [
+        {
+          text: 'link1 link2',
+          type: 'unstyled',
+          depth: 0,
+          inlineStyleRanges: [],
+          entityRanges: [
+            {
+              offset: 0,
+              length: 5,
+              key: 0,
+            },
+            {
+              offset: 6,
+              length: 5,
+              key: 1,
+            },
+          ],
+          data: {},
+        },
+      ],
     });
   });
 });
