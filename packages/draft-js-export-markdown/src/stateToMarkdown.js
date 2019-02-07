@@ -182,9 +182,11 @@ class MarkupGenerator {
       this.listItemCounts[blockDepth] + 1);
   }
 
-  insertLineBreaks() {
+  insertLineBreaks(n: number) {
     if (this.currentBlock > 0) {
-      this.output.push('\n');
+      for (let i = 0; i < n; i++) {
+        this.output.push('\n');
+      }
     }
   }
 

@@ -14,11 +14,13 @@ type Options = {
   customInlineFn?: CustomInlineFn;
 };
 
+const defaultOptions: Options = {};
+
 export default function stateFromHTML(
   html: string,
   options?: Options,
 ): ContentState {
-  let {parser, ...otherOptions} = options || {};
+  let {parser, ...otherOptions} = options || defaultOptions;
   if (parser == null) {
     parser = parseHTML;
   }

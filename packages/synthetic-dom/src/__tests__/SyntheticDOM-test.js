@@ -46,7 +46,7 @@ describe('Elements', () => {
   it('should ignore children for self-closing (void) tags', () => {
     let p = new ElementNode('p');
     let element = new ElementNode('hr', null, [p]);
-    expect(element.childNodes.length).toBe(0);
+    expect(element.childNodes && element.childNodes.length).toBe(0);
     expect(element.toString()).toBe('<hr>');
   });
 
@@ -65,11 +65,11 @@ describe('Elements', () => {
       {name: 'className', value: 'def'},
     ];
     let element = new ElementNode('div', attrs, [p]);
-    expect(element.childNodes.length).toBe(1);
-    let firstChild = element.childNodes[0];
+    expect(element.childNodes && element.childNodes.length).toBe(1);
+    let firstChild = element.childNodes ? element.childNodes[0] : null;
     // Weird branching to make Flow happy.
     if (firstChild instanceof ElementNode) {
-      expect(firstChild.childNodes.length).toBe(2);
+      expect(firstChild.childNodes && firstChild.childNodes.length).toBe(2);
     } else {
       expect(firstChild).toBeAn(ElementNode);
     }
