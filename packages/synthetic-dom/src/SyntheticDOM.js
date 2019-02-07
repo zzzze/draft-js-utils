@@ -31,6 +31,10 @@ export class Node {
   nodeType: number;
   nodeName: string;
   nodeValue: string;
+  childNodes: ?Array<Node>;
+  toString(isXHTML: ?boolean): string {
+    return isXHTML ? '' : '';
+  }
 }
 
 export class TextNode extends Node {
@@ -41,7 +45,8 @@ export class TextNode extends Node {
     this.nodeValue = value;
   }
 
-  toString(): string {
+  // eslint-disable-next-line no-unused-vars
+  toString(isXHTML: ?boolean): string {
     return escape(this.nodeValue);
   }
 }
@@ -50,7 +55,7 @@ export class ElementNode extends Node {
   _name: string;
   _attrMap: Map<string, Attr>;
   _isSelfClosing: boolean;
-  childNodes: Array<Node>;
+  childNodes: ?Array<Node>;
   attributes: AttrList;
 
   constructor(name: string, attributes: ?AttrList, childNodes: ?Array<Node>) {
@@ -72,14 +77,10 @@ export class ElementNode extends Node {
   }
 
   appendChild(node: Node) {
-    if (node.nodeType === NODE_TYPE_FRAGMENT) {
-      if (node.childNodes != null) {
-        // $FlowIssue - Flow doesn't realize that node is a FragmentNode.
-        let childNodes: Array<Node> = node.childNodes;
-        this.childNodes.push(...childNodes);
-      }
+    if (node.nodeType === NODE_TYPE_FRAGMENT && node.childNodes) {
+      this.childNodes && this.childNodes.push(...node.childNodes);
     } else {
-      this.childNodes.push(node);
+      this.childNodes && this.childNodes.push(node);
     }
   }
 
@@ -108,23 +109,16 @@ export class ElementNode extends Node {
       return '<' + this._name + attrString + (isXHTML ? '/>' : '>');
     }
     let childNodes = this.childNodes
-      .map((node) => node.toString(isXHTML))
-      .join('');
+      ? this.childNodes.map((node) => node.toString(isXHTML)).join('')
+      : '';
     return (
-      '<' +
-      this._name +
-      attrString +
-      '>' +
-      childNodes +
-      '</' +
-      this._name +
-      '>'
+      '<' + this._name + attrString + '>' + childNodes + '</' + this._name + '>'
     );
   }
 }
 
 export class FragmentNode extends Node {
-  childNodes: Array<Node>;
+  childNodes: ?Array<Node>;
 
   constructor(childNodes: Array<Node>) {
     super(...arguments);
@@ -136,19 +130,18 @@ export class FragmentNode extends Node {
   }
 
   appendChild(node: Node) {
-    if (node.nodeType === NODE_TYPE_FRAGMENT) {
-      if (node.childNodes != null) {
-        // $FlowIssue - Flow doesn't realize that node is a FragmentNode.
-        let childNodes: Array<Node> = node.childNodes;
-        this.childNodes.push(...childNodes);
-      }
+    if (node.nodeType === NODE_TYPE_FRAGMENT && node.childNodes) {
+      this.childNodes && this.childNodes.push(...node.childNodes);
     } else {
-      this.childNodes.push(node);
+      this.childNodes && this.childNodes.push(node);
     }
   }
 
   toString(isXHTML: ?boolean): string {
-    return this.childNodes.map((node) => node.toString(isXHTML)).join('');
+    let childNodes = this.childNodes;
+    return childNodes
+      ? childNodes.map((node) => node.toString(isXHTML)).join('')
+      : '';
   }
 }
 
