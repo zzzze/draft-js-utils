@@ -1,6 +1,6 @@
 {
-  "name": "draft-js-export-markdown",
-  "version": "1.3.3",
+  "name": "draft-js-export-markdown-fork-mxstbr",
+  "version": "1.3.4",
   "description": "DraftJS: Export ContentState to Markdown",
   "main": "lib/main.js",
   "scripts": {
