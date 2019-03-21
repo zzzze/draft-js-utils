@@ -78,3 +78,7 @@ callback(num_items * 1 + 2, ~foo, `string`);
 ```javascript
 const js = true
 ```
+
+>> embeds
+{"entityMap":{"0":{"data":{"url":"https://google.com"},"mutability":"MUTABLE","type":"embed"}},"blocks":[{"text":" ","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":1,"key":"0"}],"data":{}}]}
+https://google.com
