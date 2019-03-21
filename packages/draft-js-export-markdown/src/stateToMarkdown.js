@@ -254,7 +254,7 @@ class MarkupGenerator {
           let alt = data.alt ? `${escapeTitle(data.alt)}` : '';
           return `![${alt}](${encodeURL(src)})`;
         } else if (entity != null && entity.getType() === 'embed') {
-          return entity.getData().url;
+          return entity.getData().url || content;
         } else {
           return content;
         }
