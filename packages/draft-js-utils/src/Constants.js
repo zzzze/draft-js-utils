@@ -20,6 +20,7 @@ export const BLOCK_TYPE = {
 export const ENTITY_TYPE = {
   LINK: 'LINK',
   IMAGE: 'IMAGE',
+  EMBED: 'embed',
 };
 
 export const INLINE_STYLE = {
