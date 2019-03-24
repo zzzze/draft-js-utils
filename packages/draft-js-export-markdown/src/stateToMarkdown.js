@@ -7,13 +7,13 @@ import {
   INLINE_STYLE,
 } from 'draft-js-utils';
 
-import type { ContentState, ContentBlock } from 'draft-js';
+import type {ContentState, ContentBlock} from 'draft-js';
 
 type Options = {
   gfm?: ?boolean;
 };
 
-const { BOLD, CODE, ITALIC, STRIKETHROUGH, UNDERLINE } = INLINE_STYLE;
+const {BOLD, CODE, ITALIC, STRIKETHROUGH, UNDERLINE} = INLINE_STYLE;
 
 const CODE_INDENT = '    ';
 
@@ -195,7 +195,7 @@ class MarkupGenerator {
   }
 
   renderBlockContent(block: ContentBlock): string {
-    let { contentState } = this;
+    let {contentState} = this;
     let blockType = block.getType();
     let text = block.getText();
     if (text === '') {
