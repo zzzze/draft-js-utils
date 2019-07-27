@@ -1,5 +1,7 @@
 [ignore]
 .*/node_modules/immutable/dist/immutable.js.flow
+.*/node_modules/fbjs/.*
+.*/node_modules/draft-js/.*
 
 [include]
 
