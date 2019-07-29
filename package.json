@@ -1,5 +1,9 @@
 {
   "name": "draft-js-utils-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "build": "lerna run build",
     "watch": "lerna run --parallel watch",

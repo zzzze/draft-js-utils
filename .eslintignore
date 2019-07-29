@@ -1,5 +1,6 @@
 _*
 !__tests__
 lib
+esm
 node_modules
 flow-typed/npm
