@@ -218,13 +218,24 @@ class MarkupGenerator {
             if (blockType === BLOCK_TYPE.CODE) {
               return content;
             }
+
+            const contentLength = content.length;
+            content = content.trimLeft();
+            const leftPad = contentLength - content.length;
+            content = content.trimRight();
+            const rightPad = contentLength - content.length - leftPad;
+if (!content.length) {
+  // Return the original text if there is nothing left after trimming.
+  return text;
+}
+
             // NOTE: We attempt some basic character escaping here, although
             // I don't know if escape sequences are really valid in markdown,
             // there's not a canonical spec to lean on.
             if (style.has(CODE)) {
               return '`' + encodeCode(content) + '`';
             }
-            content = encodeContent(text);
+            content = encodeContent(content);
             if (style.has(BOLD)) {
               content = `**${content}**`;
             }
@@ -239,7 +250,8 @@ class MarkupGenerator {
               // TODO: encode `~`?
               content = `~~${content}~~`;
             }
-            return content;
+            content = content.padStart(content.length + leftPad);
+            return content.padEnd(content.length + rightPad);
           })
           .join('');
         let entity = entityKey ? contentState.getEntity(entityKey) : null;
