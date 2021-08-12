@@ -389,7 +389,9 @@ function () {
         switch (customInline.type) {
           case 'STYLE':
             {
-              style = style.add(customInline.style);
+              [].concat(customInline.style).forEach(function (customStyle) {
+                return style = style.add(customStyle);
+              });
               break;
             }
 

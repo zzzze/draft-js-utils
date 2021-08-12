@@ -164,6 +164,45 @@ describe('stateFromElement', function () {
       }]
     });
   });
+  it('should return multiple style from customInlineFn', function () {
+    var element = new ElementNode('div', [], [new ElementNode('span', [{
+      style: 'font-family',
+      value: 'sans-serif'
+    }, {
+      style: 'font-size',
+      value: '12px'
+    }], [new TextNode('Hello')])]);
+    var options = {
+      customInlineFn: function customInlineFn(el, _ref2) {
+        var Style = _ref2.Style;
+
+        if (el.tagName === 'SPAN') {
+          return Style(['CUSTOM_STYLE_1', 'CUSTOM_STYLE_2']);
+        }
+      }
+    };
+    var contentState = stateFromElement(element, options);
+    var rawContentState = removeBlockKeys(convertToRaw(contentState));
+    expect(rawContentState).toEqual({
+      entityMap: {},
+      blocks: [{
+        text: 'Hello',
+        type: 'unstyled',
+        depth: 0,
+        inlineStyleRanges: [{
+          offset: 0,
+          length: 5,
+          style: 'CUSTOM_STYLE_1'
+        }, {
+          offset: 0,
+          length: 5,
+          style: 'CUSTOM_STYLE_2'
+        }],
+        entityRanges: [],
+        data: {}
+      }]
+    });
+  });
   it('should support option elementStyles', function () {
     var textNode = new TextNode('Superscript');
     var element = new ElementNode('sup', [], [textNode]);
