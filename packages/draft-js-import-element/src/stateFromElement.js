@@ -62,7 +62,7 @@ type EntityMutability = 'IMMUTABLE' | 'MUTABLE' | 'SEGMENTED';
 
 type CustomStyle = {
   type: 'STYLE';
-  style: Style;
+  style: Style[];
 };
 
 type CustomEntity = {
@@ -167,7 +167,7 @@ class ContentGenerator {
   // This will be passed to the customInlineFn to allow it
   // to return a Style() or Entity().
   inlineCreators = {
-    Style: (style: Style) => ({type: 'STYLE', style}),
+    Style: (style: Style[]) => ({type: 'STYLE', style}),
     Entity: (type: string, data: DataMap<mixed>, mutability: EntityMutability = 'MUTABLE') => ({
       type: 'ENTITY',
       entityKey: this.createEntity(type, toStringMap(data), mutability),
