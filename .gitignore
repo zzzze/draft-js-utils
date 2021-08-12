@@ -2,6 +2,8 @@ _*
 !__tests__
 /packages/*/lib
 /packages/*/esm
+!/packages/draft-js-import-element/lib
+!/packages/draft-js-import-element/esm
 /node_modules
 /packages/*/node_modules
 *.log
